@@ -13,6 +13,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 1.0f;
+    [SerializeField] private float moveMaxSpeed = 100.0f;
 
     [Header("Bark")]
     [SerializeField] private float barkMaxRadius;
@@ -27,7 +28,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Update()
     {
-        _rigidbody.AddForce(new Vector3(_input.x, 0.0f, _input.y) * moveSpeed, ForceMode.Force);
+        _rigidbody.AddForce(new Vector3(_input.x, 0.0f, _input.y) * moveSpeed, ForceMode.Acceleration);
+        _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, moveMaxSpeed);
     }
 
     private void OnMove(InputValue value)
@@ -52,6 +54,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (_input == Vector2.zero) return;
 
+        _rigidbody.velocity = Vector3.zero;
         _rigidbody.AddForce(new Vector3(_input.x, 0.0f, _input.y) * dashPower, ForceMode.Impulse);
     }
 
