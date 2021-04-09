@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerBehaviour : MonoBehaviour
 {
-    private CharacterController _controller;
+    private Rigidbody _rigidbody;
     private Vector2 _input;
+    private Vector2 _dashInput;
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 1.0f;
@@ -15,15 +17,17 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Bark")]
     [SerializeField] private float barkMaxRadius;
 
+    [Header("Dash")]
+    [SerializeField] private float dashPower = 1.0f;
+
     private void Awake()
     {
-        _controller = GetComponent<CharacterController>();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        Vector3 deltaMove = moveSpeed * Time.deltaTime * new Vector3(_input.x, 0.0f, _input.y);
-        _controller.Move(deltaMove);
+        _rigidbody.AddForce(new Vector3(_input.x, 0.0f, _input.y) * moveSpeed, ForceMode.Force);
     }
 
     private void OnMove(InputValue value)
@@ -33,17 +37,18 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void OnBark()
     {
-        RaycastHit spherecastHit = new RaycastHit();
-        if (Physics.SphereCast(transform.position, 10000.0f, transform.forward, out spherecastHit, 0.0f, LayerMask.GetMask("PlayerBarkScan"), QueryTriggerInteraction.Collide))
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position, 1000.0f, Vector3.right, 0.0f, LayerMask.GetMask("BarkScan"), QueryTriggerInteraction.Collide);
+        foreach (RaycastHit hit in hits)
         {
-            Debug.Log("HIT SOMETHING!" + spherecastHit.collider.gameObject.name);
+            Debug.Log("HIT SOMETHING!" + hit.collider.gameObject.name);
         }
-        
     }
 
     private void OnDash()
     {
+        if (_input == Vector2.zero) return;
 
+        _rigidbody.AddForce(new Vector3(_input.x, 0.0f, _input.y) * dashPower, ForceMode.Impulse);
     }
 
     private void OnDrawGizmosSelected()

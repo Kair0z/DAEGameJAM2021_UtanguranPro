@@ -31,6 +31,11 @@ public class RamBehaviour : MonoBehaviour
         SetDestination();
     }
 
+    private void Do()
+    {
+
+    }
+
     private void Update()
     {
         _wanderTimer.OnPing(Time.deltaTime, SetDestination);
