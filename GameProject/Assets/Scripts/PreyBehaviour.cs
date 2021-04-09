@@ -2,25 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PreyBehavior : MonoBehaviour
+public class PreyBehaviour : MonoBehaviour
 {
-    public enum PreyState
+    private enum PreyState
     {
         Wandering,
         Fleeing
     }
 
     private PreyState _state = PreyState.Wandering;
+    private Timer _wanderTimer = new Timer();
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _state = PreyState.Wandering;
+        _wanderTimer.Set(5);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        _wanderTimer.OnPing(Time.deltaTime, DetermineNewWanderTarget);
+    }
+
+    private void DetermineNewWanderTarget()
+    {
+
     }
 }
