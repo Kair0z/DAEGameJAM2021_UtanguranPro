@@ -72,3 +72,8 @@ InitTestScene*.unity
 
 
 # End of https://www.toptal.com/developers/gitignore/api/unity
+*.csproj
+GameProject/.vs/GameProject/v16/.suo
+GameProject/Assembly-CSharp.csproj
+GameProject/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache
+GameProject/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
