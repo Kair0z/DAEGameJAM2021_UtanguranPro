@@ -34,7 +34,7 @@ public class PlayerBehaviour : MonoBehaviour
     private void OnBark()
     {
         RaycastHit spherecastHit = new RaycastHit();
-        if (Physics.SphereCast(transform.position, barkMaxRadius, transform.forward, out spherecastHit, LayerMask.NameToLayer("")))
+        if (Physics.SphereCast(transform.position, barkMaxRadius, transform.forward, out spherecastHit, 10.0f, LayerMask.NameToLayer("PlayerBarkScan")))
         {
             Debug.Log("HIT SOMETHING!" + spherecastHit.collider.gameObject.name);
         }
