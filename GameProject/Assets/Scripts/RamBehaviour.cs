@@ -8,6 +8,7 @@ public class RamBehaviour : MonoBehaviour
     {
         Idle,
         Wandering,
+        Fleeing,
         Rage
     }
 
