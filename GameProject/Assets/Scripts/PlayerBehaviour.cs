@@ -42,11 +42,14 @@ public class PlayerBehaviour : MonoBehaviour
         RaycastHit[] hits = Physics.SphereCastAll(transform.position, 1000.0f, Vector3.right, 0.0f, LayerMask.GetMask("BarkScan"), QueryTriggerInteraction.Collide);
         foreach (RaycastHit hit in hits)
         {
-            float distance = hit.distance;
+            float distance = Vector3.Distance(hit.point, transform.position);
 
             GameObject owner = hit.collider.gameObject;
             RamBehaviour ramBehaviour = owner.GetComponent<RamBehaviour>();
-            if (ramBehaviour) ; // CALL Receive bark;
+            if (ramBehaviour)
+            {
+                ramBehaviour.RecieveBark(distance, transform.position);
+            }
         }
     }
 
