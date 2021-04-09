@@ -1,26 +1,10 @@
 {
-    "name": "Input0",
+    "name": "Input",
     "maps": [
         {
             "name": "Player",
             "id": "5cd896d7-8b76-4fde-bdc6-e54ec0ff2b28",
             "actions": [
-                {
-                    "name": "MoveX",
-                    "type": "Button",
-                    "id": "88195143-2d0d-43a9-a81f-9c134104fc59",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "MoveY",
-                    "type": "Button",
-                    "id": "69b55519-9a71-4faf-86ec-ec5c49b27f86",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
                 {
                     "name": "Bark",
                     "type": "Button",
@@ -36,31 +20,17 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "b6605adb-e92d-4e4a-adde-25c6290dc1d9",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "8de52adb-c8fc-45fe-a9a0-f5a499e91469",
-                    "path": "<Gamepad>/leftStick/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveX",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4e5023a6-303d-45fe-88fa-5ae3b3e04c93",
-                    "path": "<Gamepad>/leftStick/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MoveY",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "d6e36c63-7c12-4acc-bb1f-db909b4d155e",
@@ -80,6 +50,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "60420afb-9a61-4f6f-9117-b6b09da3b9ba",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Default Controls",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
