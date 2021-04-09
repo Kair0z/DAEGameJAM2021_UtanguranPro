@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2315009067209754653}
   - component: {fileID: 5100061906234341565}
+  - component: {fileID: 8400657532728953092}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -82,6 +83,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &8400657532728953092
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3422132876653213616}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 13d362d40c7d54f489b8412d49af0ae6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7051188951905820358
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,6 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 1
   barkMaxRadius: 0
+  dashPower: 1
 --- !u!114 &7051188951905820359
 MonoBehaviour:
   m_ObjectHideFlags: 0
