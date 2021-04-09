@@ -56,6 +56,11 @@
     <Compile Include="Assets\Scripts\PlayerBehaviour.cs" />
     <Compile Include="Assets\Scripts\RamBehaviour.cs" />
     <Compile Include="Assets\Scripts\Timer.cs" />
+    <Compile Include="Assets\Scripts\PreyBehaviour.cs" />
+    <Compile Include="Assets\NavMeshComponents from brackeys\Scripts\NavMeshModifier.cs" />
+    <Compile Include="Assets\NavMeshComponents from brackeys\Scripts\NavMeshLink.cs" />
+    <Compile Include="Assets\NavMeshComponents from brackeys\Scripts\NavMeshModifierVolume.cs" />
+    <Compile Include="Assets\NavMeshComponents from brackeys\Scripts\NavMeshSurface.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
