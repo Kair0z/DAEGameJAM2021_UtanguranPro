@@ -56,11 +56,11 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Timer.cs" />
     <Compile Include="Assets\Scripts\PlayerBehaviour.cs" />
     <Compile Include="Assets\Scripts\RamBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Timer.cs" />
-    <Compile Include="Assets\Scripts\PreyBehaviour.cs" />
     <Compile Include="Assets\NavMeshComponents from brackeys\Scripts\NavMeshModifier.cs" />
+    <Compile Include="Assets\Scripts\PreyBehaviour.cs" />
     <Compile Include="Assets\NavMeshComponents from brackeys\Scripts\NavMeshLink.cs" />
     <Compile Include="Assets\NavMeshComponents from brackeys\Scripts\NavMeshModifierVolume.cs" />
     <Compile Include="Assets\NavMeshComponents from brackeys\Scripts\NavMeshSurface.cs" />

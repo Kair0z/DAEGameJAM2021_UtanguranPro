@@ -37,7 +37,7 @@
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Default Controls",
                     "action": "Bark",
                     "isComposite": false,
                     "isPartOfComposite": false
