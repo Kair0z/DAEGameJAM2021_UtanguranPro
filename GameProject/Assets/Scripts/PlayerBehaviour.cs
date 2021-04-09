@@ -9,7 +9,11 @@ public class PlayerBehaviour : MonoBehaviour
     private CharacterController _controller;
     private Vector2 _input;
 
+    [Header("Movement")]
     [SerializeField] private float moveSpeed = 1.0f;
+
+    [Header("Bark")]
+    [SerializeField] private float barkMaxRadius;
 
     private void Awake()
     {
@@ -29,11 +33,22 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void OnBark()
     {
-
+        RaycastHit spherecastHit = new RaycastHit();
+        if (Physics.SphereCast(transform.position, barkMaxRadius, transform.forward, out spherecastHit, 10.0f, LayerMask.NameToLayer("PlayerBarkScan")))
+        {
+            Debug.Log("HIT SOMETHING!" + spherecastHit.collider.gameObject.name);
+        }
+        
     }
 
     private void OnDash()
     {
 
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, barkMaxRadius);
     }
 }
