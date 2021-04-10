@@ -28,7 +28,7 @@ public class InGameManager : MonoBehaviour
     [SerializeField] private GameObject endscreenOverlay;
 
     [Header("Player ID")]
-    static public Color[] IdToColorMap = new Color[4];
+    public Color[] IdToColorMap = new Color[4];
 
     // PAUSE:
     bool _gamePaused = false;

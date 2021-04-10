@@ -140,7 +140,7 @@ public class PlayerBehaviour : MonoBehaviour
             var p = Instantiate(shoutParticles);
             p.transform.position = transform.position;
             p.GetComponent<ParticleSystem>().Play();
-            p.GetComponent<ParticleSystem>().startColor = InGameManager.IdToColorMap[ID];
+            p.GetComponent<ParticleSystem>().startColor = FindObjectOfType<InGameManager>().IdToColorMap[ID];
             Destroy(p, p.GetComponent<ParticleSystem>().main.startLifetime.constant);
         }
     }
