@@ -147,7 +147,7 @@ public class RamBehaviour : MonoBehaviour
         Debug.Log("OI");
     }
 
-    void SetState(RamState newState)
+    public void SetState(RamState newState)
     {
         _state = newState;
 
