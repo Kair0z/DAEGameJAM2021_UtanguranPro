@@ -108,6 +108,8 @@ public class RamBehaviour : MonoBehaviour
 
     public void RecieveBark(float barkPower, GameObject barker)
     {
+        if (_state == RamState.Caught) return;
+
         //dont flee when raging
         if (_state != RamState.Wander)
         {
@@ -143,8 +145,6 @@ public class RamBehaviour : MonoBehaviour
             if (hit.hit) _navMesh.SetDestination(hit.position);
             SetState(RamState.Flee);
         }
-
-        Debug.Log("OI");
     }
 
     public void SetState(RamState newState)
