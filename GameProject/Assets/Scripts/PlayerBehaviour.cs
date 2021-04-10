@@ -89,7 +89,9 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<RamBehaviour>())
         {
-            Debug.Log("AUCH");
+            Vector3 toMe = collision.gameObject.transform.position - transform.position;
+            _rigidbody.AddExplosionForce(500.0f, collision.contacts[0].point, 10.0f);
+
         }
     }
     private void OnDrawGizmosSelected()
