@@ -131,7 +131,7 @@ Transform:
   m_GameObject: {fileID: 7051188951905820358}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.19859585, y: 0.19859585, z: 0.19859585}
   m_Children:
   - {fileID: 2315009067209754653}
   - {fileID: 259365770178610786}
@@ -151,10 +151,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dazedTime: 2
-  moveSpeed: 1
-  moveMaxSpeed: 100
-  barkMaxRadius: 0
-  dashPower: 0.01
+  moveSpeed: 20
+  moveMaxSpeed: 3
+  barkCooldown: 1
+  barkMaxRadius: 4
+  dashCooldown: 2
+  dashPower: 150
   shoutParticles: {fileID: 313231378409355265}
 --- !u!114 &7051188951905820359
 MonoBehaviour:
@@ -210,14 +212,14 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7051188951905820358}
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
+  m_Mass: 5
+  m_Drag: 4
   m_AngularDrag: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &2001099097827983769
 CapsuleCollider:
   m_ObjectHideFlags: 0

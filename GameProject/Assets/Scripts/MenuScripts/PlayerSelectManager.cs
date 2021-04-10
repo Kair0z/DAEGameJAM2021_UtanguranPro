@@ -8,7 +8,7 @@ using TMPro;
 [RequireComponent(typeof(PlayerInputManager))]
 public class PlayerSelectManager : MonoBehaviour
 {
-    public static List<PlayerInput> playersJoiningGame = new List<PlayerInput>();
+    public static bool[] playersJoiningGame = new bool[4];
 
     [SerializeField] private Transform[] pawnSpawns = new Transform[4];
     private List<GameObject> pawnsSpawned = new List<GameObject>();
@@ -40,21 +40,24 @@ public class PlayerSelectManager : MonoBehaviour
 
     public void SignalPlayerLock(PlayerInput lockedPlayer)
     {
-        playersJoiningGame.Add(lockedPlayer);
+        if (lockedPlayer.playerIndex >= 4) return; // MAX 4 Players
+
+        playersJoiningGame[lockedPlayer.playerIndex] = true;
         _countDown.Set(countdownTime); // Reset timer
     }
-    public void SignalPlayerUnlock(PlayerInput freedPlayer)
-    {
-        playersJoiningGame.Remove(freedPlayer);
-    }
+
     static public void FlushJoiningPlayers()
     {
-        playersJoiningGame.Clear();
+        playersJoiningGame = new bool[4];
     }
 
     private void Update()
     {
-        if (playersJoiningGame.Count >= minMaxPlayers.x)
+        int playersJoining = 0;
+        for (int i = 0; i < playersJoiningGame.Length; ++i)
+            if (playersJoiningGame[i]) ++playersJoining;
+
+        if (playersJoining >= minMaxPlayers.x)
         {
             _countDown.OnPing(Time.deltaTime, StartGame, false);
         }

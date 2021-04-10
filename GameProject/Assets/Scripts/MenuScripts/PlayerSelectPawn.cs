@@ -43,7 +43,7 @@ public class PlayerSelectPawn : MonoBehaviour
         if (!IsInField()) return;
 
         PlayerSelectManager manager = FindObjectOfType<PlayerSelectManager>();
-        if (manager) manager.SignalPlayerUnlock(GetComponent<PlayerInput>());
+        if (manager) manager.SignalPlayerLock(GetComponent<PlayerInput>());
 
         GetComponent<Rigidbody2D>().angularDrag = 10.0f;
 
