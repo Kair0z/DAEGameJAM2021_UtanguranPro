@@ -92,6 +92,7 @@ public class PlayerBehaviour : MonoBehaviour
             // TEMP... or is it?
             //_rigidbody.AddRelativeTorque(new Vector3(0, 1, 0) * 10.0f, ForceMode.Impulse);
             // it is ...
+            //yup RIP spinmaster3000
 
             Animator anim = GetComponentInChildren<Animator>();
             if (anim) anim.SetTrigger("Bark");
