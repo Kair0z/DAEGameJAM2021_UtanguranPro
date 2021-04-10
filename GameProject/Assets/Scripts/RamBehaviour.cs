@@ -70,7 +70,7 @@ public class RamBehaviour : MonoBehaviour
         switch (_state)
         {
             case RamState.Wander:
-                //test
+                // Reset wander when destination reached
                 float time = Time.deltaTime;
                 if (ReachedDestination()) _resetWander = true;
                 if (_resetWander)
@@ -81,15 +81,18 @@ public class RamBehaviour : MonoBehaviour
                 // Udate WanderTimer & sometimes set new target
                 _wanderTimer.OnPing(time, () =>
                 {
-                    Vector3 wander = Random.insideUnitSphere * Random.Range(_minWanderRadius, _maxWanderRadius);
-                    NavMesh.SamplePosition(transform.position + wander, out NavMeshHit hit, _maxWanderRadius, 1);
-                    if (hit.hit) _navMesh.SetDestination(hit.position);
+                    if (!FindPosAwayFromEdge())
+                    {
+                        Vector3 wander = Random.insideUnitSphere * Random.Range(_minWanderRadius, _maxWanderRadius);
+                        NavMesh.SamplePosition(transform.position + wander, out NavMeshHit hit, _maxWanderRadius, 1);
+                        if (hit.hit) _navMesh.SetDestination(hit.position);
+                    }
                 });
                 break;
             case RamState.Rage:
                 break;
             case RamState.Flee:
-                if(ReachedDestination())
+                if (ReachedDestination())
                 {
                     SetState(RamState.Wander);
                 }
@@ -117,12 +120,12 @@ public class RamBehaviour : MonoBehaviour
         {
             // position particles in the middle of the sprite
             Vector3 newPos = new Vector3(transform.position.x - _spriteRenderer.transform.localScale.x, transform.position.y, transform.position.z);
-            
+
             ParticleSystem p = Instantiate(barkReceiveParticles, newPos, transform.rotation, transform).GetComponent<ParticleSystem>();
             p.Play();
             Destroy(p.gameObject, p.main.startLifetime.constant);
         }
-        
+
         bool isEnraged = IncreaseRage(_defaultRageIncrease);
         if (isEnraged)
         {
@@ -209,7 +212,7 @@ public class RamBehaviour : MonoBehaviour
 
     private bool ReachedDestination()
     {
-        if(Equals( _navMesh.destination.x, transform.position.x ) && Equals(_navMesh.destination.z, transform.position.z))
+        if (Equals(_navMesh.destination.x, transform.position.x) && Equals(_navMesh.destination.z, transform.position.z))
         {
             return true;
         }
@@ -220,5 +223,20 @@ public class RamBehaviour : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _fleeRadius);
+    }
+
+    bool FindPosAwayFromEdge()
+    {
+        bool isEdgeFound = _navMesh.FindClosestEdge(out NavMeshHit hit);
+        float threshHold = 0.5f;
+        if (isEdgeFound && hit.distance < threshHold)
+        {
+            Vector3 direction = (transform.position - hit.position).normalized + Random.insideUnitSphere;
+            direction.Normalize();
+            NavMesh.SamplePosition(transform.position + direction * Random.Range(_minWanderRadius, _maxWanderRadius), out hit, _maxWanderRadius, 1);
+            if (hit.hit) _navMesh.SetDestination(hit.position);
+            return true;
+        }
+        return false;
     }
 }
