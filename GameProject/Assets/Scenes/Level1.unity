@@ -1446,10 +1446,6 @@ PrefabInstance:
       propertyPath: m_ImpulseDefinition.m_FrequencyGain
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8590049631678000575, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: m_Radius
-      value: 1.88
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
 --- !u!1001 &965552925
@@ -3117,11 +3113,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 86598181ac2972e449ff59fcf11605b6, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1568.202
+      value: 1540
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 86598181ac2972e449ff59fcf11605b6, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1568.202
+      value: 1540
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 86598181ac2972e449ff59fcf11605b6, type: 3}
       propertyPath: m_LocalScale.z

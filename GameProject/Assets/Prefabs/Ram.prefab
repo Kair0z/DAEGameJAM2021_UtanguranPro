@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8590049631678000575}
   - component: {fileID: 5739101802301959680}
   - component: {fileID: 8556512239864177943}
+  - component: {fileID: 8774450428987769070}
   m_Layer: 6
   m_Name: Ram
   m_TagString: Untagged
@@ -51,13 +52,10 @@ MonoBehaviour:
   _navMesh: {fileID: 8590049631678000575}
   _maxWanderRadius: 5
   _minWanderRadius: 1
-  _wanderSpeed: 3
+  _wanderMovementSpeed: 8
   _wanderFrequency: 1
-  _playerAwareness: 50
-  _centerTarget: {fileID: 0}
-  _wallAvoidanceMultiplier: 1
   _chargeSpeed: 10
-  _rageIncreaseAmount: 10
+  _defaultRageIncrease: 10
   _cameraShake: {fileID: 8556512239864177943}
 --- !u!195 &8590049631678000575
 NavMeshAgent:
@@ -68,7 +66,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 3799732104015712124}
   m_Enabled: 1
   m_AgentTypeID: -334000983
-  m_Radius: 1.12
+  m_Radius: 0.87
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -137,6 +135,22 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 1000
     m_PropagationSpeed: 343
+--- !u!54 &8774450428987769070
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3799732104015712124}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &4211098056094931043
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +222,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 925d34d9311d832449d2dc7fb0efe804, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

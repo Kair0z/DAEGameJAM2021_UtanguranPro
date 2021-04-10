@@ -10,7 +10,9 @@ public class RamBehaviour : MonoBehaviour
     public enum RamState
     {
         Wander,
-        Rage
+        Rage,
+        Flee,
+        Caught
     }
 
     //private Action OnPlayerBark;
@@ -23,26 +25,13 @@ public class RamBehaviour : MonoBehaviour
     [Header("Wander")]
     [SerializeField] private float _maxWanderRadius = 5.0f;
     [SerializeField] private float _minWanderRadius = 1.0f;
-    [SerializeField] private float _wanderSpeed = 3.0f;
+    [SerializeField] private float _wanderMovementSpeed = 8.0f;
     [SerializeField] private float _wanderFrequency = 1.0f;
-
-    [Header("Steering")]
-    [SerializeField] private float _playerAwareness = 50.0f;
-    [SerializeField] private Transform _centerTarget;
-    [SerializeField] private float _wallAvoidanceMultiplier = 1.0f;
-
-    private Vector3 _steerFromCage = new Vector3();
-    private Vector3 _steerFromPlayers = new Vector3();
-    private Vector3 _steerToCenter = new Vector3();
-    private Vector3 _steerWander = new Vector3();
-    private Vector3 _steerSum = new Vector3();
     private Timer _wanderTimer = new Timer();
 
     [Header("Rage")]
     [SerializeField] private float _chargeSpeed = 10.0f;
-    [SerializeField] private float _rageIncreaseAmount = 10.0f;
-    private GameObject _chargeTarget;
-    private Vector3 _chargeDirection;
+    [SerializeField] private float _defaultRageIncrease = 10.0f;
     private float _rageBar = 0;
 
     [SerializeField] private Cinemachine.CinemachineImpulseSource _cameraShake;
@@ -51,115 +40,70 @@ public class RamBehaviour : MonoBehaviour
     {
         _state = RamState.Wander;
         _wanderTimer.Set(_wanderFrequency);
-        _navMesh.speed = _wanderSpeed;
-        CalculateWanderTarget();
+        _navMesh.speed = _wanderMovementSpeed;
     }
 
     private void Update()
     {
-        switch (_state)
+        // Udate WanderTimer & sometimes set new target
+        _wanderTimer.OnPing(Time.deltaTime, () =>
         {
-            case RamState.Wander:
-                DoWander();
-                break;
-            case RamState.Rage:
-                DoChase();
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void MoveToTarget()
-    {
-        _navMesh.SetDestination(_targetPosition);
+            Vector3 wander = Random.insideUnitSphere * Random.Range(_minWanderRadius, _maxWanderRadius);
+            NavMesh.SamplePosition(transform.position + wander, out NavMeshHit hit, _maxWanderRadius, 1);
+            if (hit.hit) _navMesh.SetDestination(hit.position);
+        });
     }
 
     
 
     public void RecieveBark(float barkPower, GameObject barker)
     {
-        bool isEnraged = FillRageBar();
-        if (isEnraged) _chargeTarget = barker;
-
-        // Move away from barker + random
-        Vector3 direction = barkPower * (transform.position - barker.transform.position).normalized + Random.insideUnitSphere;
-        NavMesh.SamplePosition(transform.position + direction, out NavMeshHit hit, barkPower, 1);
-        if (hit.hit) _targetPosition = hit.position;
-    }
-
-
-    private void CalculateWanderTarget()
-    {
-        // Wanderforce:
-        _steerWander = Random.insideUnitSphere * Random.Range(_minWanderRadius, _maxWanderRadius);
-
-        // Avoid walls force:
-        _steerToCenter = (_centerTarget.position - transform.position).normalized * _wallAvoidanceMultiplier;
-
-        // Avoid Players force:
-        _steerFromPlayers = new Vector3();
-        PlayerBehaviour[] players = FindObjectsOfType<PlayerBehaviour>();
-        foreach (PlayerBehaviour player in players) // BAD
+        bool isEnraged = IncreaseRage(_defaultRageIncrease);
+        if (isEnraged)
         {
-            float noticePlayerThreshold = 50.0f;
-
-            float distance = (transform.position - player.transform.position).magnitude;
-            float distanceNormalized = Mathf.Clamp(distance / noticePlayerThreshold, 0.0f, 1.0f);
-            _steerFromPlayers += ((transform.position - player.transform.position) / distance) / distanceNormalized;
+            // Move towards barker + random (untill collision) // CHASE
+            Vector3 direction = (transform.position - barker.transform.position).normalized + Random.insideUnitSphere;
+            NavMesh.SamplePosition(transform.position + direction * 1000, out NavMeshHit hit, 1000, 1);
+            if (hit.hit) _navMesh.SetDestination(hit.position);
         }
-        _steerFromPlayers /= players.Length;
-
-        // Barked at force:
-        Vector3 barkedForce = new Vector3();
-
-        _steerSum = (_steerWander + _steerFromPlayers + _steerToCenter + barkedForce) / 4.0f;
-        NavMesh.SamplePosition(transform.position + _steerSum, out NavMeshHit hit, _maxWanderRadius, 1);
-        if (hit.hit)
+        else
         {
-            _targetPosition = hit.position;
+            // Move away from barker + random // FLEE
+            Vector3 direction = (transform.position - barker.transform.position).normalized + Random.insideUnitSphere;
+            NavMesh.SamplePosition(transform.position + direction * 1000, out NavMeshHit hit, 1000, 1);
+            if (hit.hit) _navMesh.SetDestination(hit.position);
         }
-    }
-    private void DoWander()
-    {
-        _wanderTimer.OnPing(Time.deltaTime, CalculateWanderTarget);
-        
-        _navMesh.speed = _wanderSpeed;
-        MoveToTarget();
+
+        Debug.Log("OI");
     }
 
-    private void DoChase()
+    void SetState(RamState newState)
     {
-        // Decrease rage
-        _rageBar -= Time.deltaTime * 10.0f;
-        _navMesh.speed = _chargeSpeed;
+        _state = newState;
 
-        // Chase
-        NavMesh.SamplePosition(transform.position + (_chargeTarget.transform.position - transform.position).normalized, out NavMeshHit hit, _chargeSpeed, 1);
-        if (hit.hit) _targetPosition = hit.position;
-        MoveToTarget();
-
-        if (_rageBar <= 0.0f)
+        Animator anim = GetComponentInChildren<Animator>();
+        switch (newState)
         {
-            // Go Back to wander
-            _state = RamState.Wander;
-            _rageBar = 0.0f;
+            case RamState.Rage:
+                if (anim) anim.SetTrigger("Enrage");
+                break;
 
-            Animator anim = GetComponentInChildren<Animator>();
-            if (anim) anim.SetTrigger("Calm");
+            case RamState.Flee:
+                if (anim) anim.SetTrigger("Enrage");
+                break;
+
+            case RamState.Wander:
+                if (anim) anim.SetTrigger("Calm");
+                break;
         }
     }
 
-    bool FillRageBar()
+    bool IncreaseRage(float amount)
     {
-        _rageBar += _rageIncreaseAmount;
+        _rageBar += amount;
         if (_rageBar >= 100.0f)
         {
-            _state = RamState.Rage;
-            Animator anim = GetComponentInChildren<Animator>();
-            if (anim) anim.SetTrigger("Enrage");
-
-            Debug.Log("ENRAGE");
+            SetState(RamState.Rage);
             return true;
         }
 
@@ -168,27 +112,16 @@ public class RamBehaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (_state == RamState.Rage)
-        {
-            // Go Back to wander
-            _state = RamState.Wander;
-            _rageBar = 0.0f;
+        // Go back to Wander
+        SetState(RamState.Wander);
 
-            Animator anim = GetComponentInChildren<Animator>();
-            if (anim) anim.SetTrigger("Calm");
-        }
+        // Camera shake
+        _cameraShake.GenerateImpulse();
+
+        Debug.Log("Collide!");
     }
 
     private void OnDrawGizmosSelected()
     {
-        // Draw Steering Lines...
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position, transform.position + _steerToCenter);
-        Gizmos.color = Color.black;
-        Gizmos.DrawLine(transform.position, transform.position + _steerFromCage);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position + _steerFromPlayers);
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawLine(transform.position, transform.position + _steerWander);
     }
 }
