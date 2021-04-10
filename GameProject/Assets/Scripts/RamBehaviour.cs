@@ -175,7 +175,7 @@ public class RamBehaviour : MonoBehaviour
 
             case RamState.Flex:
                 Debug.Log("FLEXING");
-                if (anim) anim.SetTrigger("Flex");
+                if (anim) anim.SetTrigger("FLEX");
                 _navMesh.speed = 0f;
                 break;
 
