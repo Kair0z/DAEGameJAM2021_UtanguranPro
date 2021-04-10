@@ -7,28 +7,44 @@ public class PreyBehaviour : MonoBehaviour
 {
     private enum PreyState
     {
-        Wandering,
-        Fleeing
+        Wander,
+        Flee
     }
+
+    Vector3 _targetPosition;
+
+    [SerializeField] private NavMeshAgent navMeshAgentComp = null;
 
     [Header("Wander")]
     [SerializeField] private float wanderRadius = 5.0f;
     [SerializeField] private float wanderTime = 3.0f;
 
-    [SerializeField] private NavMeshAgent navMeshAgentComp = null;
+    [Header("Flee")]
+    [SerializeField] private float _fleeMultiplier = 3.0f;
 
-    private PreyState _state = PreyState.Wandering;
+    private PreyState _state = PreyState.Wander;
     private Timer _wanderTimer = new Timer();
 
     private void Start()
     {
-        _state = PreyState.Wandering;
+        _state = PreyState.Wander;
         _wanderTimer.Set(wanderTime);
     }
 
     private void Update()
     {
-        _wanderTimer.OnPing(Time.deltaTime, DetermineNewWanderTarget);
+        switch (_state)
+        {
+            case PreyState.Wander:
+                _wanderTimer.OnPing(Time.deltaTime, DetermineNewWanderTarget);
+                break;
+            case PreyState.Flee:
+                Flee();
+                break;
+            default:
+                break;
+        }
+
     }
 
     private void DetermineNewWanderTarget()
@@ -45,6 +61,27 @@ public class PreyBehaviour : MonoBehaviour
 
     public void RecieveBark(float barkPower, Vector3 barkPosition)
     {
+        _state = PreyState.Flee;
 
+        barkPower *= _fleeMultiplier;
+
+        float randomnessFactor = 1.0f;
+        Vector3 dirRandom = UnityEngine.Random.insideUnitSphere * randomnessFactor;
+
+        Vector3 direction = (transform.position - barkPosition + dirRandom).normalized * barkPower;
+        direction += transform.position;
+
+        NavMesh.SamplePosition(direction, out NavMeshHit hit, barkPower, 1);
+        _targetPosition = hit.position;
+        navMeshAgentComp.SetDestination(_targetPosition);
     }
+
+    private void Flee()
+    {
+        if (Equals(transform.position.x, _targetPosition.x) && Equals(transform.position.z, _targetPosition.z))
+        {
+            _state = PreyState.Wander;
+        }
+    }
+
 }
