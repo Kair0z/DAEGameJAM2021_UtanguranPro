@@ -26,6 +26,7 @@ public class PlayerBehaviour : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _rigidbody.maxAngularVelocity = 100000.0f;
     }
 
     private void Start()
@@ -59,7 +60,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (!_hasBarked)
         {
             _hasBarked = true;
-            RaycastHit[] hits = Physics.SphereCastAll(transform.position, 1000.0f, Vector3.right, 0.0f, LayerMask.GetMask("BarkScan"), QueryTriggerInteraction.Collide);
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, barkMaxRadius, Vector3.right, 0.0f, LayerMask.GetMask("BarkScan"), QueryTriggerInteraction.Collide);
             foreach (RaycastHit hit in hits)
             {
                 float distance = Vector3.Distance(hit.point, transform.position);
@@ -71,6 +72,9 @@ public class PlayerBehaviour : MonoBehaviour
                     ramBehaviour.RecieveBark(distance, transform.position);
                 }
             }
+
+            // TEMP
+            _rigidbody.AddRelativeTorque(new Vector3(0, 1, 0) * 10.0f, ForceMode.Impulse);
         }
     }
 
