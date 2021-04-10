@@ -148,6 +148,12 @@ public class PlayerBehaviour : MonoBehaviour
             _state = State.Dazed;
         }
     }
+
+    private void OnPauseGame()
+    {
+        InGameManager mng = FindObjectOfType<InGameManager>();
+        if (mng) mng.PauseGame(!mng.GamePaused);
+    }
     #endregion
 
     private void OnCollisionEnter(Collision collision)

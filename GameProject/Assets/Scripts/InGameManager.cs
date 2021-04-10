@@ -27,11 +27,16 @@ public class InGameManager : MonoBehaviour
     [SerializeField] private GameObject pauseOverlay;
     [SerializeField] private GameObject endscreenOverlay;
 
+    // PAUSE:
+    bool _gamePaused = false;
+    public bool GamePaused { get => _gamePaused; }
 
     private void Start()
     {
         SpawnPlayers();
         SetupOverlays();
+        PauseGame(true);
+        PauseGame(false);
     }
     private void SpawnPlayers()
     {
@@ -59,4 +64,11 @@ public class InGameManager : MonoBehaviour
         if (endscreenOverlay) endscreenOverlay.SetActive(false);
     }
 
+
+    public void PauseGame(bool pause)
+    {
+        if (pauseOverlay) pauseOverlay.SetActive(pause);
+        Time.timeScale = pause ? 0.05f : 1.0f;
+        _gamePaused = pause;
+    }
 }
