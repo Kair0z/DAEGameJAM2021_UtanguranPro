@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-//using System;
 using Cinemachine.PostFX;
 
 public class RamBehaviour : MonoBehaviour
@@ -17,7 +16,6 @@ public class RamBehaviour : MonoBehaviour
         Idle
     }
 
-    //private Action OnPlayerBark;
     private RamState _state = RamState.Wander;
     private bool _resetWander = false;
     private bool _posVelocity = false;
@@ -50,6 +48,14 @@ public class RamBehaviour : MonoBehaviour
 
     [Header("Particles")]
     [SerializeField] private GameObject barkReceiveParticles;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip[] _clipsFlee;
+    [SerializeField] private AudioClip[] _clipsFlex;
+    [SerializeField] private AudioClip[] _clipsWander;
+
+
     private void Start()
     {
         SetState(RamState.Idle);
@@ -119,8 +125,6 @@ public class RamBehaviour : MonoBehaviour
         }
     }
 
-
-
     public void RecieveBark(float barkPower, GameObject barker)
     {
         if (_state == RamState.Caught) return;
@@ -170,27 +174,44 @@ public class RamBehaviour : MonoBehaviour
                 Debug.Log("Set Rage");
                 SetRageTarget();
                 _navMesh.speed = _chargeSpeed;
-
                 break;
 
             case RamState.Flex:
+                PlayRandomClip(_clipsFlex);
                 Debug.Log("FLEXING");
                 if (anim) anim.SetTrigger("FLEX");
                 _navMesh.speed = 0f;
                 break;
 
             case RamState.Flee:
+                PlayRandomClip(_clipsFlee);
                 if (anim) anim.SetTrigger("Enrage");
                 _navMesh.speed = _fleeMovementSpeed;
                 break;
 
             case RamState.Wander:
+                PlayRandomClip(_clipsWander);
                 if (anim) anim.SetTrigger("Calm");
                 _resetWander = true;
                 _navMesh.speed = _wanderMovementSpeed;
                 break;
         }
     }
+
+    private void PlayRandomClip(AudioClip[] clip)
+    {
+        if (clip.Length == 1)
+        {
+            _audioSource.clip = clip[0];
+            _audioSource.Play();
+        }
+        else
+        {
+            _audioSource.clip = clip[UnityEngine.Random.Range(0, clip.Length)];
+            _audioSource.Play();
+        }
+    }
+
 
     bool IncreaseRage(float amount)
     {
