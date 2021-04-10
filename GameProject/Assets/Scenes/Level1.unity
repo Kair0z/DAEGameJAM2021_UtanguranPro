@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.24647538, g: 0.28234535, b: 0.3457032, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2049,6 +2049,11 @@ MonoBehaviour:
   playerTargetGroup: {fileID: 4369446252599525068}
   pauseOverlay: {fileID: 7884300302968826958}
   endscreenOverlay: {fileID: 0}
+  IdToColorMap:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 0.7924528, g: 0, b: 0.45752236, a: 1}
 --- !u!1 &1181860129
 GameObject:
   m_ObjectHideFlags: 0
@@ -3781,7 +3786,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4369446251146804441, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_LocalRotation.y
+<<<<<<< HEAD
       value: 4.1287345e-36
+=======
+      value: -1e-45
+>>>>>>> 225efd923334352512bfd4d1842e30200a2b7968
       objectReference: {fileID: 0}
     - target: {fileID: 4369446251146804441, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_LocalRotation.z
@@ -3933,7 +3942,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4369446252445832127, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_LocalRotation.y
+<<<<<<< HEAD
       value: 4.1287345e-36
+=======
+      value: -1e-45
+>>>>>>> 225efd923334352512bfd4d1842e30200a2b7968
       objectReference: {fileID: 0}
     - target: {fileID: 4369446252445832127, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_LocalRotation.z
