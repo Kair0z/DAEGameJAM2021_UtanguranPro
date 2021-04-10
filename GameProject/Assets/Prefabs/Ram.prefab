@@ -60,6 +60,7 @@ MonoBehaviour:
   _fleeRadius: 10
   _cameraShake: {fileID: 8556512239864177943}
   _spriteRenderer: {fileID: 974883051698745556}
+  barkReceiveParticles: {fileID: 4706741889023410280}
 --- !u!195 &8590049631678000575
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -313,6 +314,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a19c201dbf8274a428de090fa713041e, type: 3}
+--- !u!1 &4706741889023410280 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8881880142922831042, guid: a19c201dbf8274a428de090fa713041e, type: 3}
+  m_PrefabInstance: {fileID: 4184813964820206762}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7708198978638176876 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5830600213549692614, guid: a19c201dbf8274a428de090fa713041e, type: 3}

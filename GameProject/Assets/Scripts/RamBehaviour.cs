@@ -43,6 +43,8 @@ public class RamBehaviour : MonoBehaviour
     [SerializeField] private Cinemachine.CinemachineImpulseSource _cameraShake;
     [SerializeField] private SpriteRenderer _spriteRenderer;
 
+    [Header("Particles")]
+    [SerializeField] private GameObject barkReceiveParticles;
     private void Start()
     {
         SetState(RamState.Wander);
@@ -108,6 +110,14 @@ public class RamBehaviour : MonoBehaviour
         {
             Debug.Log("OI IM ANGRY");
             return;
+        }
+
+        // Particles of notice!
+        if (barkReceiveParticles)
+        {
+            ParticleSystem p = Instantiate(barkReceiveParticles).GetComponent<ParticleSystem>();
+            p.Play();
+            Destroy(p.gameObject, p.main.startLifetime.constant);
         }
         
         bool isEnraged = IncreaseRage(_defaultRageIncrease);
