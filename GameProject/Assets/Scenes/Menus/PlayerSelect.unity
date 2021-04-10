@@ -704,7 +704,7 @@ MonoBehaviour:
   - {fileID: 821921948}
   - {fileID: 1631573583}
   - {fileID: 50249271}
-  minMaxPlayers: {x: 2, y: 4}
+  minMaxPlayers: {x: 1, y: 4}
   countdownTime: 5
   countdownTextMesh: {fileID: 1480919627}
   OnGameStart:
