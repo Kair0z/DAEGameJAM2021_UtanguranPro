@@ -106,6 +106,8 @@ public class PlayerBehaviour : MonoBehaviour
 
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.AddForce(new Vector3(_input.x, 0.0f, _input.y) * dashPower, ForceMode.Impulse);
+        _dazedTimer.Set(0.3f);
+        _state = State.Dazed;
     }
     #endregion
 
