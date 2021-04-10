@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 //using System;
+using Cinemachine.PostFX;
 
 public class RamBehaviour : MonoBehaviour
 {
@@ -14,7 +15,6 @@ public class RamBehaviour : MonoBehaviour
     }
 
     //private Action OnPlayerBark;
-
     private RamState _state = RamState.Wander;
 
     [Header("Movement")]
@@ -35,6 +35,8 @@ public class RamBehaviour : MonoBehaviour
     [SerializeField] private float _chargeSpeed = 10.0f;
     [SerializeField] private float _rageIncreaseAmount = 10.0f;
     private float _rageBar = 0;
+
+    [SerializeField] private Cinemachine.CinemachineImpulseSource _cameraShake;
 
     private void Start()
     {
@@ -69,6 +71,8 @@ public class RamBehaviour : MonoBehaviour
 
     private void SetRandomDestination()
     {
+        if (_cameraShake) _cameraShake.GenerateImpulse();
+
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * UnityEngine.Random.Range(_minWanderRadius, _maxWanderRadius);
         randomDirection += transform.position;
         NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, _maxWanderRadius, 1);
