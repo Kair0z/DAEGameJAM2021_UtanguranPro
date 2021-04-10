@@ -922,6 +922,10 @@ PrefabInstance:
       propertyPath: m_ImpulseDefinition.m_FrequencyGain
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8590049631678000575, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
+      propertyPath: m_Radius
+      value: 1.88
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
 --- !u!1 &991910942
@@ -1607,15 +1611,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4369446251146804441, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.24578701
+      value: 0.24578702
       objectReference: {fileID: 0}
     - target: {fileID: 4369446251146804441, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.00004055163
+      value: 0.00004054545
       objectReference: {fileID: 0}
     - target: {fileID: 4369446251146804441, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000010282491
+      value: -0.0000102809245
       objectReference: {fileID: 0}
     - target: {fileID: 4369446251537804036, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_RootOrder
@@ -1699,15 +1703,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4369446252445832120, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_BackGroundColor.b
-      value: 0.8396226
+      value: 0.6745098
       objectReference: {fileID: 0}
     - target: {fileID: 4369446252445832120, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_BackGroundColor.g
-      value: 0.82766926
+      value: 0.76862746
       objectReference: {fileID: 0}
     - target: {fileID: 4369446252445832120, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_BackGroundColor.r
-      value: 0.66140085
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4369446252445832127, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1727,15 +1731,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4369446252445832127, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.24578701
+      value: 0.24578702
       objectReference: {fileID: 0}
     - target: {fileID: 4369446252445832127, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.00004055163
+      value: 0.00004054545
       objectReference: {fileID: 0}
     - target: {fileID: 4369446252445832127, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000010282491
+      value: -0.0000102809245
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
@@ -1933,7 +1937,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7051188951905820362, guid: 7ac4b61c3f4a22448aa66c07f014ad44, type: 3}
       propertyPath: barkMaxRadius
-      value: 2.59
+      value: 4.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ac4b61c3f4a22448aa66c07f014ad44, type: 3}
