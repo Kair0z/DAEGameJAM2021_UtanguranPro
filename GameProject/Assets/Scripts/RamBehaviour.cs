@@ -17,6 +17,8 @@ public class RamBehaviour : MonoBehaviour
 
     //private Action OnPlayerBark;
     private RamState _state = RamState.Wander;
+    private bool _resetWander = false;
+    private bool _posVelocity = false;
 
     [Header("Movement")]
     [SerializeField] private NavMeshAgent _navMesh;
@@ -30,31 +32,52 @@ public class RamBehaviour : MonoBehaviour
     private Timer _wanderTimer = new Timer();
 
     [Header("Rage")]
-    [SerializeField] private float _chargeSpeed = 10.0f;
+    [SerializeField] private float _chargeSpeed = 15.0f;
     [SerializeField] private float _defaultRageIncrease = 10.0f;
     private float _rageBar = 0;
 
-    [Header("Rage")]
+    [Header("Flee")]
+    [SerializeField] private float _fleeMovementSpeed = 11.0f;
     [SerializeField] private float _fleeRadius = 100.0f;
 
     [SerializeField] private Cinemachine.CinemachineImpulseSource _cameraShake;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
 
+    [Header("Particles")]
+    [SerializeField] private GameObject barkReceiveParticles;
     private void Start()
     {
-        _state = RamState.Wander;
+        SetState(RamState.Wander);
         _wanderTimer.Set(_wanderFrequency);
-        _navMesh.speed = _wanderMovementSpeed;
     }
 
     private void Update()
     {
+        //turn texture somehow?
+        if (_navMesh.velocity.x >= 0f && _posVelocity == false)
+        {
+            //texture
+            _spriteRenderer.flipX = false;
+            _posVelocity = true;
+        }
+        if (_navMesh.velocity.x < 0f && _posVelocity == true)
+        {
+            //texture
+            _spriteRenderer.flipX = true;
+            _posVelocity = false;
+        }
+
         switch (_state)
         {
             case RamState.Wander:
                 //test
                 float time = Time.deltaTime;
-                if (ReachedDestination()) time = 100f;
-                   
+                if (ReachedDestination()) _resetWander = true;
+                if (_resetWander)
+                {
+                    _resetWander = false;
+                    time = 100f;
+                }
                 // Udate WanderTimer & sometimes set new target
                 _wanderTimer.OnPing(time, () =>
                 {
@@ -83,10 +106,18 @@ public class RamBehaviour : MonoBehaviour
     public void RecieveBark(float barkPower, GameObject barker)
     {
         //dont flee wwhen raging
-        if (_state == RamState.Rage)
+        if (_state != RamState.Wander)
         {
-            Debug.Log("OI IM ANGRY");
+            Debug.Log("OI IM NOT WANDERING");
             return;
+        }
+
+        // Particles of notice!
+        if (barkReceiveParticles)
+        {
+            ParticleSystem p = Instantiate(barkReceiveParticles).GetComponent<ParticleSystem>();
+            p.Play();
+            Destroy(p.gameObject, p.main.startLifetime.constant);
         }
         
         bool isEnraged = IncreaseRage(_defaultRageIncrease);
@@ -102,8 +133,9 @@ public class RamBehaviour : MonoBehaviour
             // Move away from barker + random // FLEE
             Vector3 direction = (transform.position - barker.transform.position).normalized + Random.insideUnitSphere;
             direction.Normalize();
-            NavMesh.SamplePosition(transform.position + direction * (_fleeRadius - barkPower) /*barkpower == distance from bark source*/, out NavMeshHit hit, 1000, 1);
+            NavMesh.SamplePosition(transform.position + (direction * (_fleeRadius - barkPower)) /*barkpower == distance from bark source*/, out NavMeshHit hit, 1000, 1);
             if (hit.hit) _navMesh.SetDestination(hit.position);
+            SetState(RamState.Flee);
         }
 
         Debug.Log("OI");
@@ -118,14 +150,18 @@ public class RamBehaviour : MonoBehaviour
         {
             case RamState.Rage:
                 if (anim) anim.SetTrigger("Enrage");
+                _navMesh.speed = _chargeSpeed;
                 break;
 
             case RamState.Flee:
                 if (anim) anim.SetTrigger("Enrage");
+                _navMesh.speed = _wanderMovementSpeed;
                 break;
 
             case RamState.Wander:
                 if (anim) anim.SetTrigger("Calm");
+                _resetWander = true;
+                _navMesh.speed = _wanderMovementSpeed;
                 break;
         }
     }
@@ -149,9 +185,6 @@ public class RamBehaviour : MonoBehaviour
         {
             case RamState.Wander:
             case RamState.Flee:
-                // Go back to Wander
-                SetState(RamState.Wander);
-                break;
             case RamState.Rage:
                 if (collision.collider.tag == "SolidTerrain")
                 {

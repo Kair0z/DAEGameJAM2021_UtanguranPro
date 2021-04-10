@@ -50,13 +50,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _navMesh: {fileID: 8590049631678000575}
-  _maxWanderRadius: 5
-  _minWanderRadius: 1
+  _maxWanderRadius: 10
+  _minWanderRadius: 4
   _wanderMovementSpeed: 8
-  _wanderFrequency: 1
-  _chargeSpeed: 10
+  _wanderFrequency: 2
+  _chargeSpeed: 15
   _defaultRageIncrease: 10
+  _fleeMovementSpeed: 11
+  _fleeRadius: 10
   _cameraShake: {fileID: 8556512239864177943}
+  _spriteRenderer: {fileID: 974883051698745556}
+  barkReceiveParticles: {fileID: 4706741889023410280}
 --- !u!195 &8590049631678000575
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -130,7 +134,7 @@ MonoBehaviour:
       m_DecayTime: 0.7
       m_ScaleWithImpact: 1
       m_HoldForever: 0
-    m_ImpactRadius: 100
+    m_ImpactRadius: 500
     m_DirectionMode: 0
     m_DissipationMode: 2
     m_DissipationDistance: 1000
@@ -147,7 +151,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
@@ -310,6 +314,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a19c201dbf8274a428de090fa713041e, type: 3}
+--- !u!1 &4706741889023410280 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8881880142922831042, guid: a19c201dbf8274a428de090fa713041e, type: 3}
+  m_PrefabInstance: {fileID: 4184813964820206762}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7708198978638176876 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5830600213549692614, guid: a19c201dbf8274a428de090fa713041e, type: 3}

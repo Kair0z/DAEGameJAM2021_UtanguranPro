@@ -69,6 +69,9 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (_hasBarked)
             _barkCooldown.OnPing(Time.deltaTime, ResetBark);
+
+        if (_hasDashed)
+            _dashCooldown.OnPing(Time.deltaTime, ResetDash);
     }
 
     private void ResetBark()
@@ -122,10 +125,14 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (_input == Vector2.zero) return;
 
-        _rigidbody.velocity = Vector3.zero;
-        _rigidbody.AddForce(new Vector3(_input.x, 0.0f, _input.y) * dashPower, ForceMode.Impulse);
-        _dazedTimer.Set(0.3f);
-        _state = State.Dazed;
+        if (!_hasDashed)
+        {
+            _hasDashed = true;
+            _rigidbody.velocity = Vector3.zero;
+            _rigidbody.AddForce(new Vector3(_input.x, 0.0f, _input.y) * dashPower, ForceMode.Impulse);
+            _dazedTimer.Set(0.3f);
+            _state = State.Dazed;
+        }
     }
     #endregion
 
