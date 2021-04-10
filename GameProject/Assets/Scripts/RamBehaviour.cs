@@ -41,6 +41,8 @@ public class RamBehaviour : MonoBehaviour
     [Header("Rage")]
     [SerializeField] private float _chargeSpeed = 10.0f;
     [SerializeField] private float _rageIncreaseAmount = 10.0f;
+    private GameObject _chargeTarget;
+    private Vector3 _chargeDirection;
     private float _rageBar = 0;
 
     [SerializeField] private Cinemachine.CinemachineImpulseSource _cameraShake;
@@ -58,10 +60,10 @@ public class RamBehaviour : MonoBehaviour
         switch (_state)
         {
             case RamState.Wander:
-                Wander();
+                DoWander();
                 break;
             case RamState.Rage:
-                Rage();
+                DoChase();
                 break;
             default:
                 break;
@@ -75,23 +77,15 @@ public class RamBehaviour : MonoBehaviour
 
     
 
-    public void RecieveBark(float barkPower, Vector3 barkPosition)
+    public void RecieveBark(float barkPower, GameObject barker)
     {
-        FillRageBar();
+        bool isEnraged = FillRageBar();
+        if (isEnraged) _chargeTarget = barker;
 
-        return;
-
-        float randomnessFactor = 1.0f;
-        Vector3 dirRandom = UnityEngine.Random.insideUnitSphere * randomnessFactor;
-
-        Vector3 direction = (transform.position - barkPosition + dirRandom).normalized * barkPower;
-        direction += transform.position;
-
-        NavMesh.SamplePosition(direction, out NavMeshHit hit, barkPower, 1);
-        if (hit.hit)
-        {
-            _targetPosition = hit.position;
-        }
+        // Move away from barker + random
+        Vector3 direction = barkPower * (transform.position - barker.transform.position).normalized + Random.insideUnitSphere;
+        NavMesh.SamplePosition(transform.position + direction, out NavMeshHit hit, barkPower, 1);
+        if (hit.hit) _targetPosition = hit.position;
     }
 
 
@@ -126,7 +120,7 @@ public class RamBehaviour : MonoBehaviour
             _targetPosition = hit.position;
         }
     }
-    private void Wander()
+    private void DoWander()
     {
         _wanderTimer.OnPing(Time.deltaTime, CalculateWanderTarget);
         
@@ -134,13 +128,20 @@ public class RamBehaviour : MonoBehaviour
         MoveToTarget();
     }
 
-    private void Rage()
+    private void DoChase()
     {
-        _rageBar -= Time.deltaTime;
-        Charge();
+        // Decrease rage
+        _rageBar -= Time.deltaTime * 10.0f;
+        _navMesh.speed = _chargeSpeed;
+
+        // Chase
+        NavMesh.SamplePosition(transform.position + (_chargeTarget.transform.position - transform.position).normalized, out NavMeshHit hit, _chargeSpeed, 1);
+        if (hit.hit) _targetPosition = hit.position;
+        MoveToTarget();
 
         if (_rageBar <= 0.0f)
         {
+            // Go Back to wander
             _state = RamState.Wander;
             _rageBar = 0.0f;
 
@@ -149,15 +150,7 @@ public class RamBehaviour : MonoBehaviour
         }
     }
 
-    private void Charge()
-    {
-        // set target location to grain field
-
-        _navMesh.speed = _chargeSpeed;
-        MoveToTarget();
-    }
-
-    private void FillRageBar()
+    bool FillRageBar()
     {
         _rageBar += _rageIncreaseAmount;
         if (_rageBar >= 100.0f)
@@ -167,12 +160,23 @@ public class RamBehaviour : MonoBehaviour
             if (anim) anim.SetTrigger("Enrage");
 
             Debug.Log("ENRAGE");
+            return true;
         }
+
+        return false;
     }
 
-    private void Trample()
+    private void OnCollisionEnter(Collision collision)
     {
+        if (_state == RamState.Rage)
+        {
+            // Go Back to wander
+            _state = RamState.Wander;
+            _rageBar = 0.0f;
 
+            Animator anim = GetComponentInChildren<Animator>();
+            if (anim) anim.SetTrigger("Calm");
+        }
     }
 
     private void OnDrawGizmosSelected()
