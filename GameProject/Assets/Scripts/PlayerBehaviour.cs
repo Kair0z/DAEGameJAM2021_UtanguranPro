@@ -9,7 +9,6 @@ public class PlayerBehaviour : MonoBehaviour
 {
     private Rigidbody _rigidbody;
     private Vector2 _input;
-    private Vector2 _dashInput;
     private bool _hasBarked = false;
     private Timer _barkCooldown = new Timer();
 
@@ -50,11 +49,11 @@ public class PlayerBehaviour : MonoBehaviour
         _hasBarked = false;
     }
 
+    #region Input
     private void OnMove(InputValue value)
     {
         _input = value.Get<Vector2>();
     }
-
     private void OnBark()
     {
         if (!_hasBarked)
@@ -77,7 +76,6 @@ public class PlayerBehaviour : MonoBehaviour
             _rigidbody.AddRelativeTorque(new Vector3(0, 1, 0) * 10.0f, ForceMode.Impulse);
         }
     }
-
     private void OnDash()
     {
         if (_input == Vector2.zero) return;
@@ -85,7 +83,15 @@ public class PlayerBehaviour : MonoBehaviour
         _rigidbody.velocity = Vector3.zero;
         _rigidbody.AddForce(new Vector3(_input.x, 0.0f, _input.y) * dashPower, ForceMode.Impulse);
     }
+    #endregion
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<RamBehaviour>())
+        {
+            Debug.Log("AUCH");
+        }
+    }
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
