@@ -9,14 +9,14 @@ public class PlayerBehaviour : MonoBehaviour
 {
     enum State
     {
-        JustFine,
+        JustFineImGoodThanksForAskingHehe,
         Dazed
     }
     private Rigidbody _rigidbody;
     private Vector2 _input;
     private bool _hasBarked = false;
     private Timer _barkCooldown = new Timer();
-    private State _state = State.JustFine;
+    private State _state = State.JustFineImGoodThanksForAskingHehe;
     [SerializeField] private float dazedTime = 2.0f;
     private Timer _dazedTimer = new Timer();
 
@@ -48,15 +48,17 @@ public class PlayerBehaviour : MonoBehaviour
         if (_state == State.Dazed)
         {
             speed *= 0.5f;
-            _dazedTimer.OnPing(Time.deltaTime, () => { _state = State.JustFine; });
+            _dazedTimer.OnPing(Time.deltaTime, () => { _state = State.JustFineImGoodThanksForAskingHehe; });
         }
-        _rigidbody.AddForce(new Vector3(_input.x, 0.0f, _input.y) * speed, ForceMode.Acceleration);
-        _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, moveMaxSpeed);
+        else
+        {
+            _rigidbody.AddForce(new Vector3(_input.x, 0.0f, _input.y) * speed, ForceMode.Acceleration);
+            _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, moveMaxSpeed);
+        }
+        
 
         if (_hasBarked)
-        {
             _barkCooldown.OnPing(Time.deltaTime, ResetBark);
-        }
     }
 
     private void ResetBark()
@@ -83,12 +85,13 @@ public class PlayerBehaviour : MonoBehaviour
                 RamBehaviour ramBehaviour = owner.GetComponent<RamBehaviour>();
                 if (ramBehaviour)
                 {
-                    ramBehaviour.RecieveBark(distance, transform.position);
+                    ramBehaviour.RecieveBark(distance, gameObject);
                 }
             }
 
             // TEMP... or is it?
-            _rigidbody.AddRelativeTorque(new Vector3(0, 1, 0) * 10.0f, ForceMode.Impulse);
+            //_rigidbody.AddRelativeTorque(new Vector3(0, 1, 0) * 10.0f, ForceMode.Impulse);
+            // it is ...
 
             Animator anim = GetComponentInChildren<Animator>();
             if (anim) anim.SetTrigger("Bark");
@@ -111,7 +114,7 @@ public class PlayerBehaviour : MonoBehaviour
         if (collision.gameObject.GetComponent<RamBehaviour>())
         {
             Vector3 toMe = transform.position - collision.gameObject.transform.position ;
-            _rigidbody.AddForce(100.0f * new Vector3(toMe.x, 0.0f, toMe.z), ForceMode.VelocityChange);
+            _rigidbody.AddForce(100.0f * new Vector3(toMe.x, 0.0f, toMe.z), ForceMode.Impulse);
             _rigidbody.AddRelativeTorque(new Vector3(0, 1, 0) * 10.0f, ForceMode.Impulse);
             _dazedTimer.Set(dazedTime);
             _state = State.Dazed;
