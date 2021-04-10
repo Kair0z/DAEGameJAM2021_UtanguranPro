@@ -1343,9 +1343,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 657954798}
     - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
+<<<<<<< Updated upstream
       propertyPath: _levelCenter
       value: 
       objectReference: {fileID: 215128466}
+=======
+      propertyPath: _chargeSpeed
+      value: 15
+      objectReference: {fileID: 0}
+>>>>>>> Stashed changes
     - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
       propertyPath: _wanderSpeed
       value: 40
@@ -1365,6 +1371,10 @@ PrefabInstance:
     - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
       propertyPath: _wanderFrequency
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
+      propertyPath: _defaultRageIncrease
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
       propertyPath: _wallAvoidanceMultiplier
@@ -3241,8 +3251,13 @@ PrefabInstance:
       value: LevelBounds
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 86598181ac2972e449ff59fcf11605b6, type: 3}
+<<<<<<< Updated upstream
       propertyPath: m_StaticEditorFlags
       value: 0
+=======
+      propertyPath: m_TagString
+      value: SolidTerrain
+>>>>>>> Stashed changes
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86598181ac2972e449ff59fcf11605b6, type: 3}
