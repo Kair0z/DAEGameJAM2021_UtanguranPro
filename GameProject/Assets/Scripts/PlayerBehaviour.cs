@@ -146,6 +146,9 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (!_hasDashed)
         {
+            Animator anim = GetComponentInChildren<Animator>();
+            if (anim) anim.SetTrigger("Dash");
+
             _hasDashed = true;
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.AddForce(new Vector3(_input.x, 0.0f, _input.y) * dashPower, ForceMode.Impulse);

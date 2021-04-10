@@ -159,9 +159,6 @@ MonoBehaviour:
   dashCooldown: 2
   dashPower: 150
   shoutParticles: {fileID: 313231378409355265}
-  _audioClips:
-  - {fileID: 8300000, guid: 8a24e08063af4a246a16bfc826e3120c, type: 3}
-  - {fileID: 8300000, guid: a400139750df0cc4c86e4cc8723c5664, type: 3}
   _audioSource: {fileID: 6496888888050509646}
 --- !u!114 &7051188951905820359
 MonoBehaviour:
@@ -249,7 +246,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 8a24e08063af4a246a16bfc826e3120c, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
