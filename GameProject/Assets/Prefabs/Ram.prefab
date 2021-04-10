@@ -50,14 +50,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _navMesh: {fileID: 8590049631678000575}
-  _maxWanderRadius: 10
-  _minWanderRadius: 4
+  _maxWanderRadius: 15
+  _minWanderRadius: 5
   _wanderMovementSpeed: 8
-  _wanderFrequency: 2
+  _wanderFrequency: 4
   _chargeSpeed: 15
-  _defaultRageIncrease: 10
+  _defaultRageIncrease: 20
+  _flexTime: 3
   _fleeMovementSpeed: 11
-  _fleeRadius: 10
+  _fleeRadius: 15
   _cameraShake: {fileID: 8556512239864177943}
   _spriteRenderer: {fileID: 974883051698745556}
   barkReceiveParticles: {fileID: 4706741889023410280}
@@ -70,7 +71,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 3799732104015712124}
   m_Enabled: 1
   m_AgentTypeID: -334000983
-  m_Radius: 0.87
+  m_Radius: 1
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50

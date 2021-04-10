@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.24647538, g: 0.28234535, b: 0.3457032, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1337,17 +1337,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &657954798 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8556512239864177943, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-  m_PrefabInstance: {fileID: 909761263}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &657954800 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3799732104015712126, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
@@ -1680,61 +1669,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: _fleeRadius
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: _cameraShake
-      value: 
-      objectReference: {fileID: 657954798}
-    - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: _chargeSpeed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: _levelCenter
-      value: 
-      objectReference: {fileID: 215128466}
-    - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: _wanderSpeed
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: _centerTarget
-      value: 
-      objectReference: {fileID: 215128466}
-    - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: _maxWanderRadius
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: _minWanderRadius
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: _wanderFrequency
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: _defaultRageIncrease
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: _wallAvoidanceMultiplier
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 3799732104015712124, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
       propertyPath: m_Name
       value: Ram
-      objectReference: {fileID: 0}
-    - target: {fileID: 3799732104015712124, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3799732104015712124, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3799732104015712126, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
       propertyPath: m_RootOrder
@@ -1778,38 +1715,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3799732104015712126, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3799732104015712127, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: m_FlipX
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3799732104015712127, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: m_DrawMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8556512239864177943, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: m_ImpulseDefinition.m_RawSignal
-      value: 
-      objectReference: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
-    - target: {fileID: 8556512239864177943, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: m_ImpulseDefinition.m_ImpactRadius
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 8556512239864177943, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: m_ImpulseDefinition.m_AmplitudeGain
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8556512239864177943, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: m_ImpulseDefinition.m_FrequencyGain
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8590049631678000575, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: m_Radius
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8774450428987769070, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: m_IsKinematic
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3326,18 +3231,6 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5365713999330659275, guid: 914ff5c049930254d8c1c2e87595a64a, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.40981492
-      objectReference: {fileID: 0}
-    - target: {fileID: 5365713999330659275, guid: 914ff5c049930254d8c1c2e87595a64a, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.40981492
-      objectReference: {fileID: 0}
-    - target: {fileID: 5365713999330659275, guid: 914ff5c049930254d8c1c2e87595a64a, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.40981492
-      objectReference: {fileID: 0}
-    - target: {fileID: 5365713999330659275, guid: 914ff5c049930254d8c1c2e87595a64a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.3394
       objectReference: {fileID: 0}
@@ -3376,10 +3269,6 @@ PrefabInstance:
     - target: {fileID: 5365713999330659275, guid: 914ff5c049930254d8c1c2e87595a64a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8421426015331924509, guid: 914ff5c049930254d8c1c2e87595a64a, type: 3}
-      propertyPath: m_Radius
-      value: 2.84
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 914ff5c049930254d8c1c2e87595a64a, type: 3}
