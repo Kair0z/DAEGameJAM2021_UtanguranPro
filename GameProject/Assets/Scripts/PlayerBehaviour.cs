@@ -170,7 +170,6 @@ public class PlayerBehaviour : MonoBehaviour
             _rigidbody.AddRelativeTorque(new Vector3(0, 1, 0) * 10.0f, ForceMode.Impulse);
             _dazedTimer.Set(dazedTime);
             _state = State.Dazed;
-            Debug.Log("AUCH");
         }
     }
     private void OnDrawGizmosSelected()
