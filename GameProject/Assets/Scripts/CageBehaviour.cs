@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class CageBehaviour : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Collider _trigger;
+
+    private void Awake()
     {
-        
+        _trigger = GetComponent<Collider>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        Debug.Log("RAM CAUGHT!");
     }
 }
