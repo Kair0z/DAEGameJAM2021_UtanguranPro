@@ -38,6 +38,11 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Particles")]
     [SerializeField] private GameObject shoutParticles = null;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip[] _audioClips;
+    [SerializeField] private AudioSource _audioSource;
+
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -74,6 +79,12 @@ public class PlayerBehaviour : MonoBehaviour
             _dashCooldown.OnPing(Time.deltaTime, ResetDash);
     }
 
+    private void PlayRandomBarkClip()
+    {
+        _audioSource.clip = _audioClips[UnityEngine.Random.Range(0, _audioClips.Length)];
+        _audioSource.Play();
+    }
+
     private void ResetBark()
     {
         _hasBarked = false;
@@ -94,6 +105,9 @@ public class PlayerBehaviour : MonoBehaviour
         if (!_hasBarked)
         {
             _hasBarked = true;
+
+            PlayRandomBarkClip();
+
             RaycastHit[] hits = Physics.SphereCastAll(transform.position, barkMaxRadius, Vector3.right, 0.0f, LayerMask.GetMask("BarkScan"), QueryTriggerInteraction.Collide);
             foreach (RaycastHit hit in hits)
             {
