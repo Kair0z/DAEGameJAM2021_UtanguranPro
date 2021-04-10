@@ -105,8 +105,9 @@ public class RamBehaviour : MonoBehaviour
 
     private void Wander()
     {
-        _navMesh.speed = _wanderSpeed;
         _wanderTimer.OnPing(Time.deltaTime, SetRandomDestination);
+        
+        _navMesh.speed = _wanderSpeed;
         Move();
     }
 
@@ -114,6 +115,7 @@ public class RamBehaviour : MonoBehaviour
     {
         _navMesh.speed = _fleeSpeed;
         Move();
+
         if (Equals(transform.position.x, _targetPosition.x) && Equals(transform.position.z, _targetPosition.z))
         {
             _state = RamState.Wander;
@@ -134,15 +136,15 @@ public class RamBehaviour : MonoBehaviour
 
     private void Charge()
     {
-        _navMesh.speed = _chargeSpeed;
         // set target location to grain field
+
+        _navMesh.speed = _chargeSpeed;
         Move();
     }
 
     private void FillRageBar()
     {
         _rageBar += _rageIncreaseAmount;
-        Debug.Log(_rageBar);
         if (Equals(_rageBar, 100.0f))
         {
             _state = RamState.Rage;
