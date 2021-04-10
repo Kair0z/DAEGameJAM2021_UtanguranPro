@@ -34,7 +34,6 @@ public class RamBehaviour : MonoBehaviour
     [SerializeField] private float _defaultRageIncrease = 10.0f;
     private float _rageBar = 0;
 
-    [SerializeField] private Transform _levelCenter;
     [SerializeField] private Cinemachine.CinemachineImpulseSource _cameraShake;
 
     private void Start()
@@ -46,43 +45,59 @@ public class RamBehaviour : MonoBehaviour
 
     private void Update()
     {
-        // Udate WanderTimer & sometimes set new target
-        _wanderTimer.OnPing(Time.deltaTime, () =>
+        switch (_state)
         {
-            if (Random.Range(-1.0f, 1.0f) > 0.0f)
-            {
-                // Go across center
-                Vector3 toCenter = (_levelCenter.position - transform.position).normalized;
-                NavMesh.SamplePosition(transform.position + toCenter * 2, out NavMeshHit hit, 10000, 1);
-                if (hit.hit) _navMesh.SetDestination(hit.position);
-            }
-            else
-            {
-                // Go wander
-                Vector3 wander = Random.insideUnitSphere * Random.Range(_minWanderRadius, _maxWanderRadius);
-                NavMesh.SamplePosition(transform.position + wander, out NavMeshHit hit, _maxWanderRadius, 1);
-                if (hit.hit) _navMesh.SetDestination(hit.position);
-            }
-           
-        });
+            case RamState.Wander:
+                //test
+                float time = Time.deltaTime;
+                if (ReachedDestination()) time = 100f;
+                   
+                // Udate WanderTimer & sometimes set new target
+                _wanderTimer.OnPing(time, () =>
+                {
+                    Vector3 wander = Random.insideUnitSphere * Random.Range(_minWanderRadius, _maxWanderRadius);
+                    NavMesh.SamplePosition(transform.position + wander, out NavMeshHit hit, _maxWanderRadius, 1);
+                    if (hit.hit) _navMesh.SetDestination(hit.position);
+                });
+                break;
+            case RamState.Rage:
+                break;
+            case RamState.Flee:
+                if(ReachedDestination())
+                {
+                    SetState(RamState.Wander);
+                }
+                break;
+            case RamState.Caught:
+                break;
+            default:
+                break;
+        }
     }
 
-    
+
 
     public void RecieveBark(float barkPower, GameObject barker)
     {
+        //dont flee wwhen raging
+        if (_state == RamState.Rage)
+        {
+            Debug.Log("OI IM ANGRY");
+            return;
+        }
+        
         bool isEnraged = IncreaseRage(_defaultRageIncrease);
         if (isEnraged)
         {
             // Move towards barker + random (untill collision) // CHASE
-            Vector3 direction = (barker.transform.position - transform.position).normalized;
+            Vector3 direction = (barker.transform.position - transform.position).normalized /*+ Random.insideUnitSphere*/;
             NavMesh.SamplePosition(transform.position + direction * 1000, out NavMeshHit hit, 1000, 1);
             if (hit.hit) _navMesh.SetDestination(hit.position);
         }
         else
         {
             // Move away from barker + random // FLEE
-            Vector3 direction = (transform.position - barker.transform.position).normalized;
+            Vector3 direction = (transform.position - barker.transform.position).normalized + Random.insideUnitSphere;
             NavMesh.SamplePosition(transform.position + direction * 1000, out NavMeshHit hit, 1000, 1);
             if (hit.hit) _navMesh.SetDestination(hit.position);
         }
@@ -92,13 +107,6 @@ public class RamBehaviour : MonoBehaviour
 
     void SetState(RamState newState)
     {
-        switch (_state)
-        {
-            case RamState.Rage: 
-                _wanderFrequency -= 0.2f;
-                _rageBar = 0.0f;
-                break;
-        }
         _state = newState;
 
         Animator anim = GetComponentInChildren<Animator>();
@@ -124,6 +132,7 @@ public class RamBehaviour : MonoBehaviour
         if (_rageBar >= 100.0f)
         {
             SetState(RamState.Rage);
+            _rageBar = 0f;
             return true;
         }
 
@@ -132,11 +141,39 @@ public class RamBehaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Go back to Wander
-        SetState(RamState.Wander);
+        switch (_state)
+        {
+            case RamState.Wander:
+            case RamState.Flee:
+                // Go back to Wander
+                SetState(RamState.Wander);
+                break;
+            case RamState.Rage:
+                if (collision.collider.tag == "SolidTerrain")
+                {
+                    // Go back to Wander
+                    SetState(RamState.Wander);
+                }
+                break;
+            case RamState.Caught:
+                break;
+            default:
+                break;
+        }
 
         // Camera shake
         _cameraShake.GenerateImpulse();
+
+        Debug.Log("Collide!");
+    }
+
+    private bool ReachedDestination()
+    {
+        if(Equals( _navMesh.destination.x, transform.position.x ) && Equals(_navMesh.destination.z, transform.position.z))
+        {
+            return true;
+        }
+        return false;
     }
 
     private void OnDrawGizmosSelected()
