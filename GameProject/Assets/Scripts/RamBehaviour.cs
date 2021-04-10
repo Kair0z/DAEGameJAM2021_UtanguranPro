@@ -25,6 +25,7 @@ public class RamBehaviour : MonoBehaviour
     [SerializeField] private float _maxWanderRadius = 5.0f;
     [SerializeField] private float _minWanderRadius = 1.0f;
     [SerializeField] private float _wanderSpeed = 3.0f;
+    [SerializeField] private float _wanderFrequency = 1.0f;
     private Timer _wanderTimer = new Timer();
 
     [Header("Flee")]
@@ -41,7 +42,7 @@ public class RamBehaviour : MonoBehaviour
     private void Start()
     {
         _state = RamState.Wander;
-        _wanderTimer.Set(3.0f);
+        _wanderTimer.Set(_wanderFrequency);
         _navMesh.speed = _wanderSpeed;
         SetRandomDestination();
     }
@@ -73,7 +74,7 @@ public class RamBehaviour : MonoBehaviour
     {
         if (_cameraShake) _cameraShake.GenerateImpulse();
 
-        Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * UnityEngine.Random.Range(_minWanderRadius, _maxWanderRadius);
+        Vector3 randomDirection = Random.insideUnitSphere * Random.Range(_minWanderRadius, _maxWanderRadius);
         randomDirection += transform.position;
         NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, _maxWanderRadius, 1);
         if (hit.hit)
