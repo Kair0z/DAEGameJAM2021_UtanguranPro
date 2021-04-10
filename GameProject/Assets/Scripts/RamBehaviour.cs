@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 //using System;
+using Cinemachine.PostFX;
 
 public class RamBehaviour : MonoBehaviour
 {
@@ -14,7 +15,6 @@ public class RamBehaviour : MonoBehaviour
     }
 
     //private Action OnPlayerBark;
-
     private RamState _state = RamState.Wander;
 
     [Header("Movement")]
@@ -35,6 +35,8 @@ public class RamBehaviour : MonoBehaviour
     [SerializeField] private float _chargeSpeed = 10.0f;
     [SerializeField] private float _rageIncreaseAmount = 10.0f;
     private float _rageBar = 0;
+
+    [SerializeField] private Cinemachine.CinemachineImpulseSource _cameraShake;
 
     private void Start()
     {
@@ -69,6 +71,8 @@ public class RamBehaviour : MonoBehaviour
 
     private void SetRandomDestination()
     {
+        if (_cameraShake) _cameraShake.GenerateImpulse();
+
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * UnityEngine.Random.Range(_minWanderRadius, _maxWanderRadius);
         randomDirection += transform.position;
         NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, _maxWanderRadius, 1);
@@ -80,6 +84,8 @@ public class RamBehaviour : MonoBehaviour
 
     public void RecieveBark(float barkPower, Vector3 barkPosition)
     {
+        FillRageBar();
+
         _state = RamState.Flee;
 
         barkPower *= _fleeMultiplier;
@@ -99,16 +105,17 @@ public class RamBehaviour : MonoBehaviour
 
     private void Wander()
     {
-        _navMesh.speed = _wanderSpeed;
         _wanderTimer.OnPing(Time.deltaTime, SetRandomDestination);
+        
+        _navMesh.speed = _wanderSpeed;
         Move();
     }
 
     private void Flee()
     {
-        FillRageBar();
         _navMesh.speed = _fleeSpeed;
         Move();
+
         if (Equals(transform.position.x, _targetPosition.x) && Equals(transform.position.z, _targetPosition.z))
         {
             _state = RamState.Wander;
@@ -129,15 +136,15 @@ public class RamBehaviour : MonoBehaviour
 
     private void Charge()
     {
-        _navMesh.speed = _chargeSpeed;
         // set target location to grain field
+
+        _navMesh.speed = _chargeSpeed;
         Move();
     }
 
     private void FillRageBar()
     {
         _rageBar += _rageIncreaseAmount;
-        Debug.Log(_rageBar);
         if (Equals(_rageBar, 100.0f))
         {
             _state = RamState.Rage;

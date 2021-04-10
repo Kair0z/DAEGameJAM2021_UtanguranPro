@@ -10,6 +10,8 @@ public class PlayerBehaviour : MonoBehaviour
     private Rigidbody _rigidbody;
     private Vector2 _input;
     private Vector2 _dashInput;
+    private bool _hasBarked = false;
+    private Timer _barkCooldown = new Timer();
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 1.0f;
@@ -26,10 +28,25 @@ public class PlayerBehaviour : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
     }
 
+    private void Start()
+    {
+        _barkCooldown.Set(1.0f);
+    }
+
     private void Update()
     {
         _rigidbody.AddForce(new Vector3(_input.x, 0.0f, _input.y) * moveSpeed, ForceMode.Acceleration);
         _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, moveMaxSpeed);
+
+        if (_hasBarked)
+        {
+            _barkCooldown.OnPing(Time.deltaTime, ResetBark);
+        }
+    }
+
+    private void ResetBark()
+    {
+        _hasBarked = false;
     }
 
     private void OnMove(InputValue value)
@@ -39,16 +56,20 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void OnBark()
     {
-        RaycastHit[] hits = Physics.SphereCastAll(transform.position, 1000.0f, Vector3.right, 0.0f, LayerMask.GetMask("BarkScan"), QueryTriggerInteraction.Collide);
-        foreach (RaycastHit hit in hits)
+        if (!_hasBarked)
         {
-            float distance = Vector3.Distance(hit.point, transform.position);
-
-            GameObject owner = hit.collider.gameObject;
-            RamBehaviour ramBehaviour = owner.GetComponent<RamBehaviour>();
-            if (ramBehaviour)
+            _hasBarked = true;
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, 1000.0f, Vector3.right, 0.0f, LayerMask.GetMask("BarkScan"), QueryTriggerInteraction.Collide);
+            foreach (RaycastHit hit in hits)
             {
-                ramBehaviour.RecieveBark(distance, transform.position);
+                float distance = Vector3.Distance(hit.point, transform.position);
+
+                GameObject owner = hit.collider.gameObject;
+                RamBehaviour ramBehaviour = owner.GetComponent<RamBehaviour>();
+                if (ramBehaviour)
+                {
+                    ramBehaviour.RecieveBark(distance, transform.position);
+                }
             }
         }
     }
