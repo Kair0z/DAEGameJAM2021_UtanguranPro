@@ -34,7 +34,6 @@ public class RamBehaviour : MonoBehaviour
     [SerializeField] private float _defaultRageIncrease = 10.0f;
     private float _rageBar = 0;
 
-    [SerializeField] private Transform _levelCenter;
     [SerializeField] private Cinemachine.CinemachineImpulseSource _cameraShake;
 
     private void Start()
@@ -48,6 +47,7 @@ public class RamBehaviour : MonoBehaviour
     {
         switch (_state)
         {
+<<<<<<< HEAD
 <<<<<<< Updated upstream
             if (Random.Range(-1.0f, 1.0f) > 0.0f)
             {
@@ -64,6 +64,11 @@ public class RamBehaviour : MonoBehaviour
                 if (hit.hit) _navMesh.SetDestination(hit.position);
             }
            
+=======
+            Vector3 wander = Random.insideUnitSphere * Random.Range(_minWanderRadius, _maxWanderRadius);
+            NavMesh.SamplePosition(transform.position + wander, out NavMeshHit hit, _maxWanderRadius, 1);
+            if (hit.hit) _navMesh.SetDestination(hit.position);
+>>>>>>> parent of 2eb7b51 (Merge branch 'Dev' of https://github.com/Kair0z/DAEGameJAM2021_UtanguranPro into Dev)
         });
 =======
             case RamState.Wander:
@@ -109,18 +114,22 @@ public class RamBehaviour : MonoBehaviour
         if (isEnraged)
         {
             // Move towards barker + random (untill collision) // CHASE
+<<<<<<< HEAD
 <<<<<<< Updated upstream
             Vector3 direction = (barker.transform.position - transform.position).normalized;
 =======
             Vector3 direction = (barker.transform.position - transform.position).normalized /*+ Random.insideUnitSphere*/;
 >>>>>>> Stashed changes
+=======
+            Vector3 direction = (transform.position - barker.transform.position).normalized + Random.insideUnitSphere;
+>>>>>>> parent of 2eb7b51 (Merge branch 'Dev' of https://github.com/Kair0z/DAEGameJAM2021_UtanguranPro into Dev)
             NavMesh.SamplePosition(transform.position + direction * 1000, out NavMeshHit hit, 1000, 1);
             if (hit.hit) _navMesh.SetDestination(hit.position);
         }
         else
         {
             // Move away from barker + random // FLEE
-            Vector3 direction = (transform.position - barker.transform.position).normalized;
+            Vector3 direction = (transform.position - barker.transform.position).normalized + Random.insideUnitSphere;
             NavMesh.SamplePosition(transform.position + direction * 1000, out NavMeshHit hit, 1000, 1);
             if (hit.hit) _navMesh.SetDestination(hit.position);
         }
@@ -130,13 +139,6 @@ public class RamBehaviour : MonoBehaviour
 
     void SetState(RamState newState)
     {
-        switch (_state)
-        {
-            case RamState.Rage: 
-                _wanderFrequency -= 0.2f;
-                _rageBar = 0.0f;
-                break;
-        }
         _state = newState;
 
         Animator anim = GetComponentInChildren<Animator>();
@@ -193,6 +195,8 @@ public class RamBehaviour : MonoBehaviour
 
         // Camera shake
         _cameraShake.GenerateImpulse();
+
+        Debug.Log("Collide!");
     }
 
     private bool ReachedDestination()

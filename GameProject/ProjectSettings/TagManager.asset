@@ -5,8 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - SecretSurprise
+<<<<<<< HEAD
   - ram
   - SolidTerrain
+=======
+>>>>>>> parent of 2eb7b51 (Merge branch 'Dev' of https://github.com/Kair0z/DAEGameJAM2021_UtanguranPro into Dev)
   layers:
   - Default
   - TransparentFX
