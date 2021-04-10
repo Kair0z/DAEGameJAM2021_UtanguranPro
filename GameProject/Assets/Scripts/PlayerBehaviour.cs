@@ -39,8 +39,8 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private GameObject shoutParticles = null;
 
     [Header("Audio")]
-    [SerializeField] private AudioClip[] _audioClips;
     [SerializeField] private AudioSource _audioSource;
+    private List<AudioClip> _audioClips = new List<AudioClip>();
 
 
     private void Awake()
@@ -79,9 +79,14 @@ public class PlayerBehaviour : MonoBehaviour
             _dashCooldown.OnPing(Time.deltaTime, ResetDash);
     }
 
+    public void SetAudioClips(List<AudioClip> clips)
+    {
+        _audioClips = clips;
+    }
+
     private void PlayRandomBarkClip()
     {
-        _audioSource.clip = _audioClips[UnityEngine.Random.Range(0, _audioClips.Length)];
+        _audioSource.clip = _audioClips[UnityEngine.Random.Range(0, _audioClips.Count)];
         _audioSource.Play();
     }
 
