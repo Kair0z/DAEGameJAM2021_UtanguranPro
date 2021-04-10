@@ -17,7 +17,6 @@ public class BuildingBehaviour : MonoBehaviour
     {
         if (other.CompareTag("ram"))
         {
-            Debug.Log("RAM HIT DIS SHIT!");
             Animator anim = GetComponentInChildren<Animator>();
             if (anim) anim.SetTrigger("DESTROYED");
         }
