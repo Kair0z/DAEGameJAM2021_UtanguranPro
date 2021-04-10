@@ -392,6 +392,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shout
       objectReference: {fileID: 0}
+    - target: {fileID: 7919887414809209831, guid: 5726cfc8f0a61f540bc22bdef6ca44b5, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7919887414809209831, guid: 5726cfc8f0a61f540bc22bdef6ca44b5, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7919887414809209831, guid: 5726cfc8f0a61f540bc22bdef6ca44b5, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5726cfc8f0a61f540bc22bdef6ca44b5, type: 3}
 --- !u!1 &313231378409355265 stripped
