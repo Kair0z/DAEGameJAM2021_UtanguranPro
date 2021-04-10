@@ -105,7 +105,7 @@ public class RamBehaviour : MonoBehaviour
 
     public void RecieveBark(float barkPower, GameObject barker)
     {
-        //dont flee wwhen raging
+        //dont flee when raging
         if (_state != RamState.Wander)
         {
             Debug.Log("OI IM NOT WANDERING");
@@ -115,7 +115,10 @@ public class RamBehaviour : MonoBehaviour
         // Particles of notice!
         if (barkReceiveParticles)
         {
-            ParticleSystem p = Instantiate(barkReceiveParticles).GetComponent<ParticleSystem>();
+            // position particles in the middle of the sprite
+            Vector3 newPos = new Vector3(transform.position.x - _spriteRenderer.transform.localScale.x, transform.position.y, transform.position.z);
+            
+            ParticleSystem p = Instantiate(barkReceiveParticles, newPos, transform.rotation, transform).GetComponent<ParticleSystem>();
             p.Play();
             Destroy(p.gameObject, p.main.startLifetime.constant);
         }
