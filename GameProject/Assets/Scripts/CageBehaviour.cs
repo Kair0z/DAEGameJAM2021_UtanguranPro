@@ -13,6 +13,12 @@ public class CageBehaviour : MonoBehaviour
         _trigger = GetComponent<Collider>();
     }
 
+    IEnumerator DelayLoadScene()
+    {
+        yield return new WaitForSeconds(5);
+        SceneTravel.GoToScene("EndMenu");
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         RamBehaviour ram = other.GetComponent<RamBehaviour>();
@@ -22,6 +28,8 @@ public class CageBehaviour : MonoBehaviour
             ram.GetComponent<NavMeshAgent>().SetDestination(transform.position);
 
             GetComponent<Animator>().SetTrigger("Open");
+
+            StartCoroutine("DelayLoadScene");
         }
     }
 }

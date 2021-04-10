@@ -35,8 +35,6 @@ public class InGameManager : MonoBehaviour
     {
         SpawnPlayers();
         SetupOverlays();
-        PauseGame(true);
-        PauseGame(false);
     }
     private void SpawnPlayers()
     {
