@@ -30,7 +30,7 @@ public class RamBehaviour : MonoBehaviour
 
     [Header("Flee")]
     [SerializeField] private float _fleeSpeed = 10.0f;
-    [SerializeField] private float _fleeMultiplier = 5.0f;
+    [SerializeField] private float _fleeMultiplier = 3.0f;
 
     [Header("Rage")]
     [SerializeField] private float _chargeSpeed = 10.0f;
@@ -94,7 +94,7 @@ public class RamBehaviour : MonoBehaviour
         float randomnessFactor = 1.0f;
         Vector3 dirRandom = UnityEngine.Random.insideUnitSphere * randomnessFactor;
 
-        Vector3 direction = (transform.position - barkPosition + dirRandom).normalized;
+        Vector3 direction = (transform.position - barkPosition + dirRandom).normalized * barkPower;
         direction += transform.position;
 
         NavMesh.SamplePosition(direction, out NavMeshHit hit, barkPower, 1);

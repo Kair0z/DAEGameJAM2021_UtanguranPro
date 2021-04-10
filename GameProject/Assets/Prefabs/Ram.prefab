@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8590049631678000575}
   - component: {fileID: 5739101802301959680}
   - component: {fileID: 8556512239864177943}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ram
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,10 +51,12 @@ MonoBehaviour:
   _maxWanderRadius: 5
   _minWanderRadius: 1
   _wanderSpeed: 3
+  _wanderFrequency: 1
   _fleeSpeed: 10
-  _fleeMultiplier: 5
+  _fleeMultiplier: 1.3
   _chargeSpeed: 10
   _rageIncreaseAmount: 10
+  _cameraShake: {fileID: 8556512239864177943}
 --- !u!195 &8590049631678000575
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -105,7 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ImpulseDefinition:
     m_ImpulseChannel: 1
-    m_RawSignal: {fileID: 0}
+    m_RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
     m_AmplitudeGain: 1
     m_FrequencyGain: 1
     m_RepeatMode: 0
