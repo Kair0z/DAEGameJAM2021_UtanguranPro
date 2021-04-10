@@ -15,7 +15,10 @@ public class PlayerBehaviour : MonoBehaviour
     private Rigidbody _rigidbody;
     private Vector2 _input;
     private bool _hasBarked = false;
+    private bool _hasDashed = false;
     private Timer _barkCooldown = new Timer();
+    private Timer _dashCooldown = new Timer();
+
     private State _state = State.JustFineImGoodThanksForAskingHehe;
     [SerializeField] private float dazedTime = 2.0f;
     private Timer _dazedTimer = new Timer();
@@ -25,21 +28,28 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private float moveMaxSpeed = 100.0f;
 
     [Header("Bark")]
+    [SerializeField] private float barkCooldown = 1.0f;
     [SerializeField] private float barkMaxRadius;
 
     [Header("Dash")]
+    [SerializeField] private float dashCooldown = 2.0f;
     [SerializeField] private float dashPower = 1.0f;
+
+    [Header("Particles")]
+    [SerializeField] private GameObject shoutParticles = null;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.maxAngularVelocity = 100000.0f;
         _dazedTimer.Set(dazedTime);
+        
     }
 
     private void Start()
     {
-        _barkCooldown.Set(1.0f);
+        _dashCooldown.Set(dashCooldown);
+        _barkCooldown.Set(barkCooldown);
     }
 
     private void Update()
@@ -64,6 +74,11 @@ public class PlayerBehaviour : MonoBehaviour
     private void ResetBark()
     {
         _hasBarked = false;
+    }
+
+    private void ResetDash()
+    {
+        _hasDashed = false;
     }
 
     #region Input
@@ -97,8 +112,10 @@ public class PlayerBehaviour : MonoBehaviour
             Animator anim = GetComponentInChildren<Animator>();
             if (anim) anim.SetTrigger("Bark");
 
-            ParticleSystem particles = GetComponentInChildren<ParticleSystem>();
-            if (particles) particles.Play();
+            var p = Instantiate(shoutParticles);
+            p.transform.position = transform.position;
+            p.GetComponent<ParticleSystem>().Play();
+            Destroy(p, p.GetComponent<ParticleSystem>().main.startLifetime.constant);
         }
     }
     private void OnDash()
