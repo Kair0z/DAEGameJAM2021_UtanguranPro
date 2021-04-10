@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 [RequireComponent(typeof(PlayerInputManager))]
 public class InGameManager : MonoBehaviour
@@ -20,6 +21,9 @@ public class InGameManager : MonoBehaviour
     [Header("Spawns")]
     [SerializeField] private Transform[] spawns = new Transform[4];
 
+
+    [SerializeField] Cinemachine.CinemachineTargetGroup playerTargetGroup;
+
     private void Start()
     {
         if (!playerPrefab) return;
@@ -36,6 +40,7 @@ public class InGameManager : MonoBehaviour
             {
                 PlayerInput newPlayer = inputManager.JoinPlayer(i);
                 newPlayer.transform.position = spawns[i].position;
+                if (playerTargetGroup) playerTargetGroup.AddMember(newPlayer.transform, 1.0f, 1.0f);
             }
         }
     }
