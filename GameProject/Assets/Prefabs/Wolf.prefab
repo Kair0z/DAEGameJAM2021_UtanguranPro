@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1292cbbf966617448aa307d79394b00f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 446da4ea019bbea40b4ce3a1e21b99dd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
+  moveMaxSpeed: 100
   barkMaxRadius: 0
   dashPower: 1
 --- !u!114 &7051188951905820359
