@@ -16,15 +16,24 @@ public class InGameManager : MonoBehaviour
     }
     GameState _currentState;
 
+    
+
+    [Header("Spawn Players")]
     [SerializeField] private GameObject playerPrefab = null;
-
-    [Header("Spawns")]
     [SerializeField] private Transform[] spawns = new Transform[4];
-
-
     [SerializeField] Cinemachine.CinemachineTargetGroup playerTargetGroup;
 
+    [Header("Overlays")]
+    [SerializeField] private GameObject pauseOverlay;
+    [SerializeField] private GameObject endscreenOverlay;
+
+
     private void Start()
+    {
+        SpawnPlayers();
+        SetupOverlays();
+    }
+    private void SpawnPlayers()
     {
         if (!playerPrefab) return;
 
@@ -33,7 +42,7 @@ public class InGameManager : MonoBehaviour
 
         _currentState = GameState.Intro;
 
-        for (int i= 0; i < PlayerSelectManager.playersJoiningGame.Length; ++i)
+        for (int i = 0; i < PlayerSelectManager.playersJoiningGame.Length; ++i)
         {
             bool playerJoin = PlayerSelectManager.playersJoiningGame[i];
             if (playerJoin)
@@ -44,6 +53,10 @@ public class InGameManager : MonoBehaviour
             }
         }
     }
-
+    private void SetupOverlays()
+    {
+        if (pauseOverlay) pauseOverlay.SetActive(false);
+        if (endscreenOverlay) endscreenOverlay.SetActive(false);
+    }
 
 }
