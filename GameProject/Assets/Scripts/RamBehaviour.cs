@@ -106,9 +106,9 @@ public class RamBehaviour : MonoBehaviour
     public void RecieveBark(float barkPower, GameObject barker)
     {
         //dont flee wwhen raging
-        if (_state == RamState.Rage)
+        if (_state != RamState.Wander)
         {
-            Debug.Log("OI IM ANGRY");
+            Debug.Log("OI IM NOT WANDERING");
             return;
         }
 
