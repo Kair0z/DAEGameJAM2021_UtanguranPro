@@ -34,6 +34,9 @@ public class RamBehaviour : MonoBehaviour
     [SerializeField] private float _defaultRageIncrease = 10.0f;
     private float _rageBar = 0;
 
+    [Header("Rage")]
+    [SerializeField] private float _fleeRadius = 100.0f;
+
     [SerializeField] private Cinemachine.CinemachineImpulseSource _cameraShake;
 
     private void Start()
@@ -98,7 +101,8 @@ public class RamBehaviour : MonoBehaviour
         {
             // Move away from barker + random // FLEE
             Vector3 direction = (transform.position - barker.transform.position).normalized + Random.insideUnitSphere;
-            NavMesh.SamplePosition(transform.position + direction * 1000, out NavMeshHit hit, 1000, 1);
+            direction.Normalize();
+            NavMesh.SamplePosition(transform.position + direction * (_fleeRadius - barkPower) /*barkpower == distance from bark source*/, out NavMeshHit hit, 1000, 1);
             if (hit.hit) _navMesh.SetDestination(hit.position);
         }
 
@@ -178,5 +182,7 @@ public class RamBehaviour : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _fleeRadius);
     }
 }

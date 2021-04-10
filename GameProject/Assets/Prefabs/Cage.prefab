@@ -91,6 +91,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3591250076970217200}
+  - component: {fileID: 8267176520291954210}
   m_Layer: 0
   m_Name: Sprites (1)
   m_TagString: Untagged
@@ -119,6 +120,19 @@ Transform:
   m_Father: {fileID: 7454067601530553971}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!65 &8267176520291954210
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456627051511609380}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.37, y: 3.03, z: 0.07}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &739402745757171568
 GameObject:
   m_ObjectHideFlags: 0
@@ -927,6 +941,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7756118172494187256}
+  - component: {fileID: 596142052869573835}
   m_Layer: 0
   m_Name: Sprites (2)
   m_TagString: Untagged
@@ -955,6 +970,19 @@ Transform:
   m_Father: {fileID: 7454067601530553971}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!65 &596142052869573835
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2827255637077064289}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.37, y: 3.03, z: 0.07}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3115794325838014651
 GameObject:
   m_ObjectHideFlags: 0
@@ -2194,6 +2222,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5286123732014789377}
+  - component: {fileID: 6697335928047024014}
   m_Layer: 0
   m_Name: Sprites (3)
   m_TagString: Untagged
@@ -2222,6 +2251,19 @@ Transform:
   m_Father: {fileID: 7454067601530553971}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6697335928047024014
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7022522126242593178}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.37, y: 3.03, z: 0.07}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7044790920850882955
 GameObject:
   m_ObjectHideFlags: 0
@@ -2231,6 +2273,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6289478537981029298}
+  - component: {fileID: 4325607984152490423}
   m_Layer: 0
   m_Name: Sprites
   m_TagString: Untagged
@@ -2259,6 +2302,19 @@ Transform:
   m_Father: {fileID: 7454067601530553971}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4325607984152490423
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7044790920850882955}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.37, y: 3.03, z: 0.07}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7387367670610733332
 GameObject:
   m_ObjectHideFlags: 0
