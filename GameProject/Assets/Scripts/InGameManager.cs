@@ -58,10 +58,11 @@ public class InGameManager : MonoBehaviour
                 newPlayer.transform.position = spawns[i].position;
                 if (playerTargetGroup) playerTargetGroup.AddMember(newPlayer.transform, 1.0f, 1.0f);
 
-                List<AudioClip> clips = new List<AudioClip>();
-                clips.Add(Resources.Load($"Audio/{i}Bark0") as AudioClip);
-                clips.Add(Resources.Load($"Audio/{i}Bark1") as AudioClip);
-                newPlayer.GetComponent<PlayerBehaviour>().SetAudioClips(clips);
+                List<AudioClip> clipsBark = new List<AudioClip>();
+                List<AudioClip> clipsHowl = new List<AudioClip>();
+                clipsBark.Add(Resources.Load($"Audio/{i}Bark0") as AudioClip);
+                clipsHowl.Add(Resources.Load($"Audio/{i}Howl0") as AudioClip);
+                newPlayer.GetComponent<PlayerBehaviour>().SetAudioClips(clipsBark, clipsHowl);
             }
         }
     }
