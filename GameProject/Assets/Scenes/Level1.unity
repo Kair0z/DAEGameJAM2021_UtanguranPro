@@ -1343,10 +1343,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 657954798}
     - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: _chargeSpeed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
       propertyPath: _levelCenter
       value: 
       objectReference: {fileID: 215128466}
@@ -1369,10 +1365,6 @@ PrefabInstance:
     - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
       propertyPath: _wanderFrequency
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: _defaultRageIncrease
-      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
       propertyPath: _wallAvoidanceMultiplier
@@ -3424,7 +3416,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4369446251146804441, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000113656635
+      value: 0.00011365663
       objectReference: {fileID: 0}
     - target: {fileID: 4369446251146804441, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_LocalRotation.z
@@ -3576,7 +3568,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4369446252445832127, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000113656635
+      value: 0.00011365663
       objectReference: {fileID: 0}
     - target: {fileID: 4369446252445832127, guid: f0d2f55764382604da868b04ccf3fa88, type: 3}
       propertyPath: m_LocalRotation.z
