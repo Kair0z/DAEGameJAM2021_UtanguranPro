@@ -136,13 +136,16 @@ public class RamBehaviour : MonoBehaviour
 
     private void Rage()
     {
-        _rageBar -= 0.2f;
+        _rageBar -= Time.deltaTime;
         Charge();
 
         if (_rageBar <= 0.0f)
         {
             _state = RamState.Wander;
             _rageBar = 0.0f;
+
+            Animator anim = GetComponentInChildren<Animator>();
+            if (anim) anim.SetTrigger("Calm");
         }
     }
 
@@ -157,9 +160,13 @@ public class RamBehaviour : MonoBehaviour
     private void FillRageBar()
     {
         _rageBar += _rageIncreaseAmount;
-        if (Equals(_rageBar, 100.0f))
+        if (_rageBar >= 100.0f)
         {
             _state = RamState.Rage;
+            Animator anim = GetComponentInChildren<Animator>();
+            if (anim) anim.SetTrigger("Enrage");
+
+            Debug.Log("ENRAGE");
         }
     }
 
@@ -170,11 +177,14 @@ public class RamBehaviour : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        //// Draw Steering Lines...
-        //Gizmos.color = Color.green;
-        //Gizmos.DrawLine(transform.position, transform.position + _steerToCenter);
-        //Gizmos.color = Color.black;
-        //Gizmos.DrawLine(transform.position, transform.position + _steerFromCage);
-        //Gizmos.color = Color.
+        // Draw Steering Lines...
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position, transform.position + _steerToCenter);
+        Gizmos.color = Color.black;
+        Gizmos.DrawLine(transform.position, transform.position + _steerFromCage);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, transform.position + _steerFromPlayers);
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawLine(transform.position, transform.position + _steerWander);
     }
 }

@@ -7,10 +7,18 @@ using System;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerBehaviour : MonoBehaviour
 {
+    enum State
+    {
+        JustFine,
+        Dazed
+    }
     private Rigidbody _rigidbody;
     private Vector2 _input;
     private bool _hasBarked = false;
     private Timer _barkCooldown = new Timer();
+    private State _state = State.JustFine;
+    [SerializeField] private float dazedTime = 2.0f;
+    private Timer _dazedTimer = new Timer();
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 1.0f;
@@ -26,6 +34,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.maxAngularVelocity = 100000.0f;
+        _dazedTimer.Set(dazedTime);
     }
 
     private void Start()
@@ -35,7 +44,13 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Update()
     {
-        _rigidbody.AddForce(new Vector3(_input.x, 0.0f, _input.y) * moveSpeed, ForceMode.Acceleration);
+        float speed = moveSpeed;
+        if (_state == State.Dazed)
+        {
+            speed *= 0.5f;
+            _dazedTimer.OnPing(Time.deltaTime, () => { _state = State.JustFine; });
+        }
+        _rigidbody.AddForce(new Vector3(_input.x, 0.0f, _input.y) * speed, ForceMode.Acceleration);
         _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, moveMaxSpeed);
 
         if (_hasBarked)
@@ -72,8 +87,14 @@ public class PlayerBehaviour : MonoBehaviour
                 }
             }
 
-            // TEMP
+            // TEMP... or is it?
             _rigidbody.AddRelativeTorque(new Vector3(0, 1, 0) * 10.0f, ForceMode.Impulse);
+
+            Animator anim = GetComponentInChildren<Animator>();
+            if (anim) anim.SetTrigger("Bark");
+
+            ParticleSystem particles = GetComponentInChildren<ParticleSystem>();
+            if (particles) particles.Play();
         }
     }
     private void OnDash()
@@ -89,9 +110,12 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<RamBehaviour>())
         {
-            Vector3 toMe = collision.gameObject.transform.position - transform.position;
-            _rigidbody.AddExplosionForce(500.0f, collision.contacts[0].point, 10.0f);
-
+            Vector3 toMe = transform.position - collision.gameObject.transform.position ;
+            _rigidbody.AddForce(100.0f * new Vector3(toMe.x, 0.0f, toMe.z), ForceMode.VelocityChange);
+            _rigidbody.AddRelativeTorque(new Vector3(0, 1, 0) * 10.0f, ForceMode.Impulse);
+            _dazedTimer.Set(dazedTime);
+            _state = State.Dazed;
+            Debug.Log("AUCH");
         }
     }
     private void OnDrawGizmosSelected()
