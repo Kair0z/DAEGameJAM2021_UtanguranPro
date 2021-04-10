@@ -27,6 +27,9 @@ public class InGameManager : MonoBehaviour
     [SerializeField] private GameObject pauseOverlay;
     [SerializeField] private GameObject endscreenOverlay;
 
+    [Header("Player ID")]
+    static public Color[] IdToColorMap = new Color[4];
+
     // PAUSE:
     bool _gamePaused = false;
     public bool GamePaused { get => _gamePaused; }
@@ -51,6 +54,7 @@ public class InGameManager : MonoBehaviour
             if (playerJoin)
             {
                 PlayerInput newPlayer = inputManager.JoinPlayer(i);
+                newPlayer.GetComponent<PlayerBehaviour>().ID = i;
                 newPlayer.transform.position = spawns[i].position;
                 if (playerTargetGroup) playerTargetGroup.AddMember(newPlayer.transform, 1.0f, 1.0f);
 

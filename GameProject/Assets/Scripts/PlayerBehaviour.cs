@@ -42,6 +42,7 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private AudioSource _audioSource;
     private List<AudioClip> _audioClips = new List<AudioClip>();
 
+    public int ID = 0;
 
     private void Awake()
     {
@@ -86,6 +87,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void PlayRandomBarkClip()
     {
+        if (_audioClips.Count == 0) return;
+
         _audioSource.clip = _audioClips[UnityEngine.Random.Range(0, _audioClips.Count)];
         _audioSource.Play();
     }
@@ -137,6 +140,7 @@ public class PlayerBehaviour : MonoBehaviour
             var p = Instantiate(shoutParticles);
             p.transform.position = transform.position;
             p.GetComponent<ParticleSystem>().Play();
+            p.GetComponent<ParticleSystem>().startColor = InGameManager.IdToColorMap[ID];
             Destroy(p, p.GetComponent<ParticleSystem>().main.startLifetime.constant);
         }
     }
