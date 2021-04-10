@@ -12,7 +12,9 @@ public class RamBehaviour : MonoBehaviour
         Wander,
         Rage,
         Flee,
-        Caught
+        Flex,
+        Caught,
+        Idle
     }
 
     //private Action OnPlayerBark;
@@ -34,7 +36,10 @@ public class RamBehaviour : MonoBehaviour
     [Header("Rage")]
     [SerializeField] private float _chargeSpeed = 15.0f;
     [SerializeField] private float _defaultRageIncrease = 10.0f;
-    private float _rageBar = 0;
+    [SerializeField] private float _flexTime = 3.0f;
+    private float _rageBar = 0f;
+    private float _flexTimer = 0f;
+    private GameObject _theLastBarker;
 
     [Header("Flee")]
     [SerializeField] private float _fleeMovementSpeed = 11.0f;
@@ -47,7 +52,7 @@ public class RamBehaviour : MonoBehaviour
     [SerializeField] private GameObject barkReceiveParticles;
     private void Start()
     {
-        SetState(RamState.Wander);
+        SetState(RamState.Idle);
         _wanderTimer.Set(_wanderFrequency);
     }
 
@@ -91,6 +96,14 @@ public class RamBehaviour : MonoBehaviour
                 break;
             case RamState.Rage:
                 break;
+            case RamState.Flex:
+                _flexTimer += Time.deltaTime;
+                if(_flexTimer >= _flexTime)
+                {
+                    _flexTimer = 0f;
+                    SetState(RamState.Rage);
+                }
+                break;
             case RamState.Flee:
                 if (ReachedDestination())
                 {
@@ -98,6 +111,8 @@ public class RamBehaviour : MonoBehaviour
                 }
                 break;
             case RamState.Caught:
+                break;
+            case RamState.Idle:
                 break;
             default:
                 break;
@@ -108,10 +123,11 @@ public class RamBehaviour : MonoBehaviour
 
     public void RecieveBark(float barkPower, GameObject barker)
     {
-        //dont flee when raging
-        if (_state != RamState.Wander)
+        if (_state == RamState.Caught) return;
+
+        //dont flee when raging or fleeing or flexing
+        if (_state == RamState.Rage || _state == RamState.Flee || _state == RamState.Flex)
         {
-            Debug.Log("OI IM NOT WANDERING");
             return;
         }
 
@@ -126,13 +142,10 @@ public class RamBehaviour : MonoBehaviour
             Destroy(p.gameObject, p.main.startLifetime.constant);
         }
 
-        bool isEnraged = IncreaseRage(_defaultRageIncrease);
-        if (isEnraged)
+        bool isFlexing = IncreaseRage(_defaultRageIncrease);
+        if (isFlexing)
         {
-            // Move towards barker + random (untill collision) // CHASE
-            Vector3 direction = (barker.transform.position - transform.position).normalized /*+ Random.insideUnitSphere*/;
-            NavMesh.SamplePosition(transform.position + direction * 1000, out NavMeshHit hit, 1000, 1);
-            if (hit.hit) _navMesh.SetDestination(hit.position);
+            _theLastBarker = barker;
         }
         else
         {
@@ -143,8 +156,6 @@ public class RamBehaviour : MonoBehaviour
             if (hit.hit) _navMesh.SetDestination(hit.position);
             SetState(RamState.Flee);
         }
-
-        Debug.Log("OI");
     }
 
     public void SetState(RamState newState)
@@ -156,12 +167,21 @@ public class RamBehaviour : MonoBehaviour
         {
             case RamState.Rage:
                 if (anim) anim.SetTrigger("Enrage");
+                Debug.Log("Set Rage");
+                SetRageTarget();
                 _navMesh.speed = _chargeSpeed;
+
+                break;
+
+            case RamState.Flex:
+                Debug.Log("FLEXING");
+                if (anim) anim.SetTrigger("FLEX");
+                _navMesh.speed = 0f;
                 break;
 
             case RamState.Flee:
                 if (anim) anim.SetTrigger("Enrage");
-                _navMesh.speed = _wanderMovementSpeed;
+                _navMesh.speed = _fleeMovementSpeed;
                 break;
 
             case RamState.Wander:
@@ -177,12 +197,28 @@ public class RamBehaviour : MonoBehaviour
         _rageBar += amount;
         if (_rageBar >= 100.0f)
         {
-            SetState(RamState.Rage);
+            SetState(RamState.Flex);
             _rageBar = 0f;
             return true;
         }
 
         return false;
+    }
+
+    private void SetRageTarget()
+    {
+        // Move towards barker or random (untill collision) // CHASE
+        Vector3 direction;
+        if (_theLastBarker)
+        {
+            direction = (_theLastBarker.transform.position - transform.position).normalized;
+        }
+        else
+        {
+            direction = Random.insideUnitSphere;
+        }
+        NavMesh.SamplePosition(transform.position + direction * 1000, out NavMeshHit hit, 1000, 1);
+        if (hit.hit) _navMesh.SetDestination(hit.position);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -200,6 +236,12 @@ public class RamBehaviour : MonoBehaviour
                 break;
             case RamState.Caught:
                 break;
+            case RamState.Idle:
+                if (collision.collider.tag == "Player")
+                {
+                    SetState(RamState.Wander);
+                }
+                break;
             default:
                 break;
         }
@@ -207,7 +249,6 @@ public class RamBehaviour : MonoBehaviour
         // Camera shake
         _cameraShake.GenerateImpulse();
 
-        Debug.Log("Collide!");
     }
 
     private bool ReachedDestination()

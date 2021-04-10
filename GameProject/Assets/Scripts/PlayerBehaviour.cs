@@ -38,6 +38,12 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("Particles")]
     [SerializeField] private GameObject shoutParticles = null;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource _audioSource;
+    private List<AudioClip> _audioClips = new List<AudioClip>();
+
+    public int ID = 0;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -74,6 +80,19 @@ public class PlayerBehaviour : MonoBehaviour
             _dashCooldown.OnPing(Time.deltaTime, ResetDash);
     }
 
+    public void SetAudioClips(List<AudioClip> clips)
+    {
+        _audioClips = clips;
+    }
+
+    private void PlayRandomBarkClip()
+    {
+        if (_audioClips.Count == 0) return;
+
+        _audioSource.clip = _audioClips[UnityEngine.Random.Range(0, _audioClips.Count)];
+        _audioSource.Play();
+    }
+
     private void ResetBark()
     {
         _hasBarked = false;
@@ -94,6 +113,9 @@ public class PlayerBehaviour : MonoBehaviour
         if (!_hasBarked)
         {
             _hasBarked = true;
+
+            PlayRandomBarkClip();
+
             RaycastHit[] hits = Physics.SphereCastAll(transform.position, barkMaxRadius, Vector3.right, 0.0f, LayerMask.GetMask("BarkScan"), QueryTriggerInteraction.Collide);
             foreach (RaycastHit hit in hits)
             {
@@ -118,6 +140,7 @@ public class PlayerBehaviour : MonoBehaviour
             var p = Instantiate(shoutParticles);
             p.transform.position = transform.position;
             p.GetComponent<ParticleSystem>().Play();
+            p.GetComponent<ParticleSystem>().startColor = InGameManager.IdToColorMap[ID];
             Destroy(p, p.GetComponent<ParticleSystem>().main.startLifetime.constant);
         }
     }
@@ -127,12 +150,21 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (!_hasDashed)
         {
+            Animator anim = GetComponentInChildren<Animator>();
+            if (anim) anim.SetTrigger("Dash");
+
             _hasDashed = true;
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.AddForce(new Vector3(_input.x, 0.0f, _input.y) * dashPower, ForceMode.Impulse);
             _dazedTimer.Set(0.3f);
             _state = State.Dazed;
         }
+    }
+
+    private void OnPauseGame()
+    {
+        InGameManager mng = FindObjectOfType<InGameManager>();
+        if (mng) mng.PauseGame(!mng.GamePaused);
     }
     #endregion
 
@@ -145,7 +177,6 @@ public class PlayerBehaviour : MonoBehaviour
             _rigidbody.AddRelativeTorque(new Vector3(0, 1, 0) * 10.0f, ForceMode.Impulse);
             _dazedTimer.Set(dazedTime);
             _state = State.Dazed;
-            Debug.Log("AUCH");
         }
     }
     private void OnDrawGizmosSelected()

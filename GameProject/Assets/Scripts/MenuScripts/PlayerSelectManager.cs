@@ -22,11 +22,11 @@ public class PlayerSelectManager : MonoBehaviour
 
     public UnityEvent OnGameStart;
 
-    private void Awake()
+    private void Start()
     {
         _countDown.Set(countdownTime);
+        FlushJoiningPlayers();
     }
-
     private void OnPlayerJoined(PlayerInput newPlayer)
     {
         pawnsSpawned.Add(newPlayer.gameObject);

@@ -1,0 +1,13 @@
+Casual Blaat x 3
+Angry Blaat x 2
+Angry Bark x 4
+Casual Bark x 4
+Fleeing Blaat x 1
+Hek Sluit
+Dash Hond
+Building Destroyed
+Menu sound
+Victory sound
+Falling Sheep
+Hond Janken
+Encaptulated Blaat
