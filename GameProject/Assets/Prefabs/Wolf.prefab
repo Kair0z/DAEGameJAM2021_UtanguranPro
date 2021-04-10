@@ -149,10 +149,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e47290ad531ba842ac6653a1f3c08d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dazedTime: 2
   moveSpeed: 1
   moveMaxSpeed: 100
   barkMaxRadius: 0
-  dashPower: 1
+  dashPower: 0.01
 --- !u!114 &7051188951905820359
 MonoBehaviour:
   m_ObjectHideFlags: 0
