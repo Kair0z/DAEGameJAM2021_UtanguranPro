@@ -84,6 +84,8 @@ public class RamBehaviour : MonoBehaviour
 
     public void RecieveBark(float barkPower, Vector3 barkPosition)
     {
+        FillRageBar();
+
         _state = RamState.Flee;
 
         barkPower *= _fleeMultiplier;
@@ -110,7 +112,6 @@ public class RamBehaviour : MonoBehaviour
 
     private void Flee()
     {
-        FillRageBar();
         _navMesh.speed = _fleeSpeed;
         Move();
         if (Equals(transform.position.x, _targetPosition.x) && Equals(transform.position.z, _targetPosition.z))
