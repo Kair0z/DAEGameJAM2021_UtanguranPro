@@ -6,7 +6,6 @@ TagManager:
   tags:
   - SecretSurprise
   - ram
-  - SolidTerrain
   layers:
   - Default
   - TransparentFX
