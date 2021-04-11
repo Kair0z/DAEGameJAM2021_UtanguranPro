@@ -363,7 +363,6 @@ public class RamBehaviour : MonoBehaviour
 
             return true;
         }
-        Debug.Log("ja da zit er ni in");
         return false;
     }
 }
