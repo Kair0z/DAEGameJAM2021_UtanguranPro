@@ -51,6 +51,7 @@ public class RamBehaviour : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioSource _sourceGallop;
     [SerializeField] private AudioClip[] _clipsFlee;
     [SerializeField] private AudioClip[] _clipsFlex;
     [SerializeField] private AudioClip[] _clipsWander;
@@ -164,12 +165,21 @@ public class RamBehaviour : MonoBehaviour
 
     public void SetState(RamState newState)
     {
+        if (_state == RamState.Rage && newState != RamState.Rage) // stop galloping after rage
+        {
+            _sourceGallop.loop = false;
+            _sourceGallop.Stop();
+        }
+
         _state = newState;
 
         Animator anim = GetComponentInChildren<Animator>();
         switch (newState)
         {
             case RamState.Rage:
+                _sourceGallop.Play();
+                _sourceGallop.loop = true;
+
                 if (anim) anim.SetTrigger("Enrage");
                 Debug.Log("Set Rage");
                 SetRageTarget();
