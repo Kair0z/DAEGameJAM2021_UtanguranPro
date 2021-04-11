@@ -710,10 +710,10 @@ MonoBehaviour:
   OnGameStart:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1048662779}
-        m_TargetAssemblyTypeName: SceneTravel, Assembly-CSharp
-        m_MethodName: GoToScene
-        m_Mode: 5
+      - m_Target: {fileID: 1048662777}
+        m_TargetAssemblyTypeName: PlayerSelectManager, Assembly-CSharp
+        m_MethodName: EnterRandomLevel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -722,6 +722,9 @@ MonoBehaviour:
           m_StringArgument: Level2
           m_BoolArgument: 0
         m_CallState: 2
+  randomLevelList:
+  - Level1
+  - Level2
 --- !u!114 &1048662778
 MonoBehaviour:
   m_ObjectHideFlags: 0

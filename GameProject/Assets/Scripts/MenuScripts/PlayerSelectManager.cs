@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 [RequireComponent(typeof(PlayerInputManager))]
 public class PlayerSelectManager : MonoBehaviour
 {
@@ -69,5 +69,9 @@ public class PlayerSelectManager : MonoBehaviour
     private void StartGame()
     {
         OnGameStart.Invoke();
+    }
+    public void EnterRandomLevel()
+    {
+        SceneManager.LoadScene(randomLevelList[Random.Range(0, randomLevelList.Length)]);
     }
 }
