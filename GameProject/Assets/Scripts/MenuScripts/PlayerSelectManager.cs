@@ -5,6 +5,8 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 [RequireComponent(typeof(PlayerInputManager))]
 public class PlayerSelectManager : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public class PlayerSelectManager : MonoBehaviour
     [Header("Countdown")]
     [SerializeField] private float countdownTime = 5.0f;
     [SerializeField] private TextMeshProUGUI countdownTextMesh;
+    [SerializeField] private Image countdownFillImage;
     private Timer _countDown = new Timer();
 
     public UnityEvent OnGameStart;
@@ -64,7 +67,9 @@ public class PlayerSelectManager : MonoBehaviour
         }
 
         if (countdownTextMesh)
-            countdownTextMesh.text = Mathf.Clamp(_countDown.TimeLeft, 0.0f, countdownTime).ToString();
+            countdownTextMesh.text = Mathf.RoundToInt(Mathf.Clamp(_countDown.TimeLeft, 0.0f, countdownTime)).ToString();
+        if (countdownFillImage)
+            countdownFillImage.fillAmount = _countDown.TimeLeft / countdownTime;
     }
     private void StartGame()
     {
