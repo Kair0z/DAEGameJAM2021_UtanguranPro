@@ -217,7 +217,6 @@ public class RamBehaviour : MonoBehaviour
 
             case RamState.Flex:
                 PlayRandomClip(_clipsFlex);
-                Debug.Log("FLEXING");
                 floofPoofParticles.Play();
                 angryParticles.Play();
                 if (anim) anim.SetTrigger("FLEX");
