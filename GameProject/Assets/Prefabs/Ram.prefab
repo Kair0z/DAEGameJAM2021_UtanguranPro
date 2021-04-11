@@ -9777,11 +9777,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73629f3a5bae74a4f875b366a5f14b78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _navMesh: {fileID: 8590049631678000575}
+  _navMeshAgent: {fileID: 0}
+  _cage: {fileID: 0}
   _maxWanderRadius: 15
   _minWanderRadius: 5
   _wanderMovementSpeed: 8
   _wanderFrequency: 4
+  _wanderEdgeMinDistance: 2
   _chargeSpeed: 15
   _rageIncreaseMin: 15
   _rageIncreaseMax: 25
@@ -9800,9 +9802,9 @@ MonoBehaviour:
   _clipsFlee:
   - {fileID: 8300000, guid: 68ebdb8039704ea4a807d28a8a2313b1, type: 3}
   _clipsFlex:
-  - {fileID: 8300000, guid: 4a1cbbcbeb06e534bac7b3688d5ae7ee, type: 3}
+  - {fileID: 8300000, guid: 5ef6a0f0590ec8845bc8f89bd8f7f46b, type: 3}
   _clipsWander:
-  - {fileID: 8300000, guid: 91cb12774d812c642834e06754e2cf5c, type: 3}
+  - {fileID: 8300000, guid: 6d7ce7c3271d4cc41ae175fec70e5c8b, type: 3}
 --- !u!195 &8590049631678000575
 NavMeshAgent:
   m_ObjectHideFlags: 0
