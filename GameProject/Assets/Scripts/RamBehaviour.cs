@@ -167,17 +167,6 @@ public class RamBehaviour : MonoBehaviour
             return;
         }
 
-        // Particles of notice!
-        if (barkReceiveParticles)
-        {
-            // position particles in the middle of the sprite
-            Vector3 newPos = new Vector3(transform.position.x - _spriteRenderer.transform.localScale.x, transform.position.y, transform.position.z);
-
-            ParticleSystem p = Instantiate(barkReceiveParticles, newPos, transform.rotation, transform).GetComponent<ParticleSystem>();
-            p.Play();
-            Destroy(p.gameObject, p.main.startLifetime.constant);
-        }
-
         bool isFlexing = IncreaseRage(Random.Range(_rageIncreaseMin, _rageIncreaseMax));
         if (isFlexing)
         {
