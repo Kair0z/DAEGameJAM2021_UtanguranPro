@@ -14,3 +14,6 @@ Building Destroyed
 Menu sound
 Victory sound
 
+Rotsen
+Galop
+Vogeltjes?
