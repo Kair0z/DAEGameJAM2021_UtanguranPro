@@ -132,9 +132,14 @@ public class PlayerBehaviour : MonoBehaviour
 
                 GameObject owner = hit.collider.gameObject;
                 RamBehaviour ramBehaviour = owner.GetComponent<RamBehaviour>();
+                PreyBehaviour preyBehaviour = owner.GetComponent<PreyBehaviour>();
                 if (ramBehaviour)
                 {
                     ramBehaviour.RecieveBark(distance, gameObject);
+                }
+                else if (preyBehaviour)
+                {
+                    preyBehaviour.RecieveBark(distance, gameObject);
                 }
             }
 
