@@ -17,18 +17,30 @@ public class PlayerSelectPawn : MonoBehaviour
 
     [SerializeField] private float movementSpeed = 1.0f;
 
+    [Header("OnSelect")]
+    [SerializeField] private Sprite selectSprite = null;
+    [SerializeField] private Sprite deselectSprite = null;
+
+    [SerializeField] private float selectedDrag = 4.0f;
+    private float defaultDrag = 0.0f;
+
     private void Start()
     {
+        GetComponentInChildren<SpriteRenderer>().sprite = deselectSprite;
+        _state = State.Free;
     }
-
     private void Update()
     {
-        if (_state == State.Free) 
-            GetComponent<Rigidbody2D>().AddForce(_input * movementSpeed, ForceMode2D.Force);
+        GetComponent<Rigidbody2D>().AddForce(_input * movementSpeed, ForceMode2D.Force);
     }
 
     private void OnMove(InputValue input)
     {
+        if (_state != State.Free)
+        {
+            _input = Vector2.zero;
+            return;
+        }
         _input = input.Get<Vector2>();
     }
 
@@ -40,12 +52,14 @@ public class PlayerSelectPawn : MonoBehaviour
 
     private void Free()
     {
+        return;
         if (!IsInField()) return;
 
-        PlayerSelectManager manager = FindObjectOfType<PlayerSelectManager>();
-        if (manager) manager.SignalPlayerLock(GetComponent<PlayerInput>());
+        //PlayerSelectManager manager = FindObjectOfType<PlayerSelectManager>();
+        //if (manager) manager.SignalPlayerLock(GetComponent<PlayerInput>());
 
-        GetComponent<Rigidbody2D>().angularDrag = 10.0f;
+        GetComponent<Rigidbody2D>().angularDrag = defaultDrag;
+        GetComponentInChildren<SpriteRenderer>().sprite = deselectSprite;
 
         Debug.Log("Freed!");
         _state = State.Free;
@@ -71,7 +85,11 @@ public class PlayerSelectPawn : MonoBehaviour
         PlayerSelectManager manager = FindObjectOfType<PlayerSelectManager>();
         if (manager) manager.SignalPlayerLock(GetComponent<PlayerInput>());
 
+        GetComponentInChildren<SpriteRenderer>().sprite = selectSprite;
+
         GetComponent<Rigidbody2D>().angularDrag = 0.05f;
+        defaultDrag = GetComponent<Rigidbody2D>().drag;
+        GetComponent<Rigidbody2D>().drag = selectedDrag;
 
         _state = State.Locked;
 

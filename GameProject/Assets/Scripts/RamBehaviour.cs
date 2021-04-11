@@ -131,6 +131,10 @@ public class RamBehaviour : MonoBehaviour
                 });
                 break;
             case RamState.Rage:
+                if(ReachedDestination())
+                {
+                    SetState(RamState.Wander);
+                }
                 break;
             case RamState.Flex:
                 _flexTimer += Time.deltaTime;
