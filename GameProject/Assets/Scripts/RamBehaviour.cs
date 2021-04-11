@@ -33,7 +33,8 @@ public class RamBehaviour : MonoBehaviour
 
     [Header("Rage")]
     [SerializeField] private float _chargeSpeed = 15.0f;
-    [SerializeField] private float _defaultRageIncrease = 10.0f;
+    [SerializeField] private float _rageIncreaseMin = 15.0f;
+    [SerializeField] private float _rageIncreaseMax = 25.0f;
     [SerializeField] private float _flexTime = 3.0f;
     private float _rageBar = 0f;
     private float _flexTimer = 0f;
@@ -152,7 +153,7 @@ public class RamBehaviour : MonoBehaviour
             Destroy(p.gameObject, p.main.startLifetime.constant);
         }
 
-        bool isFlexing = IncreaseRage(_defaultRageIncrease);
+        bool isFlexing = IncreaseRage(Random.Range(_rageIncreaseMin, _rageIncreaseMax));
         if (isFlexing)
         {
             _theLastBarker = barker;
