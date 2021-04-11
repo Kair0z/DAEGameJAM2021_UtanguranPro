@@ -130,8 +130,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 5
-  selectSprite: {fileID: 21300000, guid: 1792fa379b09f81458bdeea8cf544fd1, type: 3}
-  deselectSprite: {fileID: 21300000, guid: 219db4c295fbfaf41b9bb5e1e083eb3d, type: 3}
+  selectSprite: {fileID: 21300000, guid: 604673df17740794da939eca71148691, type: 3}
+  deselectSprite: {fileID: 21300000, guid: 2400bbdf4b122394693313660eceaefb, type: 3}
   selectedDrag: 4
 --- !u!114 &8358129199254369414
 MonoBehaviour:
