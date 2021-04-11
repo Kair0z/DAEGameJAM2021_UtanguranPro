@@ -21,7 +21,7 @@ public class RamBehaviour : MonoBehaviour
     private bool _posVelocity = false;
 
     [Header("Movement")]
-    [SerializeField] private NavMeshAgent _navMesh;
+    [SerializeField] private NavMeshAgent _navMeshAgent;
     [SerializeField] private GameObject _cage;
     Vector3 _targetPosition;
     BoxCollider _cageCollider;
@@ -81,13 +81,13 @@ public class RamBehaviour : MonoBehaviour
     private void Update()
     {
         //turn texture somehow?
-        if (_navMesh.velocity.x >= 0f && _posVelocity == false)
+        if (_navMeshAgent.velocity.x >= 0f && _posVelocity == false)
         {
             //texture
             _spriteRenderer.flipX = false;
             _posVelocity = true;
         }
-        if (_navMesh.velocity.x < 0f && _posVelocity == true)
+        if (_navMeshAgent.velocity.x < 0f && _posVelocity == true)
         {
             //texture
             _spriteRenderer.flipX = true;
@@ -120,11 +120,11 @@ public class RamBehaviour : MonoBehaviour
 
                                 NavMesh.SamplePosition(hit.position + (fuckU * 2f), out NavMeshHit hitShit, _maxWanderRadius, 1);
 
-                                _navMesh.SetDestination(hitShit.position);
+                                _navMeshAgent.SetDestination(hitShit.position);
                             }
                             else
                             {
-                                _navMesh.SetDestination(hit.position);
+                                _navMeshAgent.SetDestination(hit.position);
                             }
                         }
                     }
@@ -187,7 +187,7 @@ public class RamBehaviour : MonoBehaviour
             Vector3 direction = (transform.position - barker.transform.position).normalized + Random.insideUnitSphere;
             direction.Normalize();
             NavMesh.SamplePosition(transform.position + (direction * (_fleeRadius - barkPower)) /*barkpower == distance from bark source*/, out NavMeshHit hit, 1000, 1);
-            if (hit.hit) _navMesh.SetDestination(hit.position);
+            if (hit.hit) _navMeshAgent.SetDestination(hit.position);
             SetState(RamState.Flee);
         }
     }
@@ -212,7 +212,7 @@ public class RamBehaviour : MonoBehaviour
                 if (anim) anim.SetTrigger("Enrage");
                 SetRageTarget();
                 floofPoofParticles.Play();
-                _navMesh.speed = _chargeSpeed;
+                _navMeshAgent.speed = _chargeSpeed;
                 break;
 
             case RamState.Flex:
@@ -220,21 +220,21 @@ public class RamBehaviour : MonoBehaviour
                 floofPoofParticles.Play();
                 angryParticles.Play();
                 if (anim) anim.SetTrigger("FLEX");
-                _navMesh.speed = 0f;
+                _navMeshAgent.speed = 0f;
                 break;
 
             case RamState.Flee:
                 PlayRandomClip(_clipsFlee);
                 if (anim) anim.SetTrigger("Enrage");
                 scaredParticles.Play();
-                _navMesh.speed = _fleeMovementSpeed;
+                _navMeshAgent.speed = _fleeMovementSpeed;
                 break;
 
             case RamState.Wander:
                 PlayRandomClip(_clipsWander);
                 if (anim) anim.SetTrigger("Calm");
                 _resetWander = true;
-                _navMesh.speed = _wanderMovementSpeed;
+                _navMeshAgent.speed = _wanderMovementSpeed;
                 break;
         }
     }
@@ -286,11 +286,11 @@ public class RamBehaviour : MonoBehaviour
             {
                 direction = Random.insideUnitSphere;
                 NavMesh.SamplePosition(transform.position + direction * 30, out NavMeshHit fuckU, 1000, 1);
-                _navMesh.SetDestination(fuckU.position);
+                _navMeshAgent.SetDestination(fuckU.position);
             }
             else
             {
-                _navMesh.SetDestination(hit.position);
+                _navMeshAgent.SetDestination(hit.position);
             }
         }
     }
@@ -328,7 +328,7 @@ public class RamBehaviour : MonoBehaviour
 
     private bool ReachedDestination()
     {
-        if (Equals(_navMesh.destination.x, transform.position.x) && Equals(_navMesh.destination.z, transform.position.z))
+        if (Equals(_navMeshAgent.destination.x, transform.position.x) && Equals(_navMeshAgent.destination.z, transform.position.z))
         {
             return true;
         }
@@ -343,13 +343,13 @@ public class RamBehaviour : MonoBehaviour
 
     bool FindPosAwayFromEdge()
     {
-        bool isEdgeFound = _navMesh.FindClosestEdge(out NavMeshHit hit);
+        bool isEdgeFound = _navMeshAgent.FindClosestEdge(out NavMeshHit hit);
         if (isEdgeFound && hit.distance < _wanderEdgeMinDistance)
         {
             Vector3 direction = (transform.position - hit.position).normalized + Random.insideUnitSphere;
             direction.Normalize();
             NavMesh.SamplePosition(transform.position + direction * Random.Range(_minWanderRadius, _maxWanderRadius), out hit, _maxWanderRadius, 1);
-            if (hit.hit) _navMesh.SetDestination(hit.position);
+            if (hit.hit) _navMeshAgent.SetDestination(hit.position);
             return true;
         }
         return false;
