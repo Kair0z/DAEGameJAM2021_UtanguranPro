@@ -69,7 +69,7 @@ public class PlayerSelectManager : MonoBehaviour
         if (countdownTextMesh)
             countdownTextMesh.text = Mathf.RoundToInt(Mathf.Clamp(_countDown.TimeLeft, 0.0f, countdownTime)).ToString();
         if (countdownFillImage)
-            countdownFillImage.fillAmount = _countDown.TimeLeft / countdownTime;
+            countdownFillImage.fillAmount = 1.0f - (_countDown.TimeLeft / countdownTime);
     }
     private void StartGame()
     {

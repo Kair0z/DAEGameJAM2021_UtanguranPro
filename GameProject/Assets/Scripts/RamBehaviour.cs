@@ -304,6 +304,7 @@ public class RamBehaviour : MonoBehaviour
         switch (_state)
         {
             case RamState.Wander:
+                break;
             case RamState.Flee:
             case RamState.Rage:
                 if (collision.collider.tag == "SolidTerrain")

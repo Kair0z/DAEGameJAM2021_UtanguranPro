@@ -11,16 +11,18 @@ public class PreyBehaviour : MonoBehaviour
         Flee
     }
 
-    Vector3 _targetPosition;
-
-    [SerializeField] private NavMeshAgent navMeshAgentComp = null;
+    [SerializeField] private NavMeshAgent _navMeshAgent;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    private bool _posVelocity = false;
 
     [Header("Wander")]
-    [SerializeField] private float wanderRadius = 5.0f;
-    [SerializeField] private float wanderTime = 3.0f;
+    [SerializeField] private float _maxWanderRadius = 5.0f;
+    [SerializeField] private float _wanderFrequency = 3.0f;
+    [SerializeField] private float _wanderMovementSpeed = 8.0f;
 
     [Header("Flee")]
-    [SerializeField] private float _fleeMultiplier = 3.0f;
+    [SerializeField] private float _fleeRadius = 3.0f;
+    [SerializeField] private float _fleeMovementSpeed = 11.0f;
 
     private PreyState _state = PreyState.Wander;
     private Timer _wanderTimer = new Timer();
@@ -28,18 +30,37 @@ public class PreyBehaviour : MonoBehaviour
     private void Start()
     {
         _state = PreyState.Wander;
-        _wanderTimer.Set(wanderTime);
+        _navMeshAgent.speed = _wanderMovementSpeed;
+        _wanderTimer.Set(_wanderFrequency);
     }
 
     private void Update()
     {
+        //turn texture somehow?
+        if (_navMeshAgent.velocity.x >= 0f && _posVelocity == false)
+        {
+            //texture
+            _spriteRenderer.flipX = false;
+            _posVelocity = true;
+        }
+        if (_navMeshAgent.velocity.x < 0f && _posVelocity == true)
+        {
+            //texture
+            _spriteRenderer.flipX = true;
+            _posVelocity = false;
+        }
+
         switch (_state)
         {
             case PreyState.Wander:
                 _wanderTimer.OnPing(Time.deltaTime, DetermineNewWanderTarget);
                 break;
             case PreyState.Flee:
-                Flee();
+                if (ReachedDestination())
+                {
+                    _state = PreyState.Wander;
+                    _navMeshAgent.speed = _wanderMovementSpeed;
+                }
                 break;
             default:
                 break;
@@ -49,39 +70,39 @@ public class PreyBehaviour : MonoBehaviour
 
     private void DetermineNewWanderTarget()
     {
-        Vector2 point = Random.insideUnitCircle.normalized * Random.Range(0, wanderRadius);
-        navMeshAgentComp.SetDestination(new Vector3(point.x, 0f, point.y));
+        Vector3 wander = Random.insideUnitSphere * Random.Range(0f, _maxWanderRadius);
+        NavMesh.SamplePosition(transform.position + wander, out NavMeshHit hit, _maxWanderRadius, 1);
+        _navMeshAgent.SetDestination(hit.position);
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, wanderRadius);
+        Gizmos.DrawWireSphere(transform.position, _maxWanderRadius);
     }
 
-    public void RecieveBark(float barkPower, Vector3 barkPosition)
+    public void RecieveBark(float barkPower, GameObject barker)
     {
-        _state = PreyState.Flee;
-
-        barkPower *= _fleeMultiplier;
-
-        float randomnessFactor = 1.0f;
-        Vector3 dirRandom = UnityEngine.Random.insideUnitSphere * randomnessFactor;
-
-        Vector3 direction = (transform.position - barkPosition + dirRandom).normalized * barkPower;
-        direction += transform.position;
-
-        NavMesh.SamplePosition(direction, out NavMeshHit hit, barkPower, 1);
-        _targetPosition = hit.position;
-        navMeshAgentComp.SetDestination(_targetPosition);
-    }
-
-    private void Flee()
-    {
-        if (Equals(transform.position.x, _targetPosition.x) && Equals(transform.position.z, _targetPosition.z))
+        Debug.Log("barked at duck");
+        // Move away from barker + random // FLEE
+        Vector3 direction = (transform.position - barker.transform.position).normalized + Random.insideUnitSphere;
+        direction.Normalize();
+        NavMesh.SamplePosition(transform.position + (direction * (_fleeRadius)) /*barkpower == distance from bark source*/, out NavMeshHit hit, 1000, 1);
+        if (hit.hit)
         {
-            _state = PreyState.Wander;
+            _navMeshAgent.SetDestination(hit.position);
+            _state = PreyState.Flee;
+            _navMeshAgent.speed = _fleeMovementSpeed;
         }
+    }
+
+    private bool ReachedDestination()
+    {
+        if (Equals(_navMeshAgent.destination.x, transform.position.x) && Equals(_navMeshAgent.destination.z, transform.position.z))
+        {
+            return true;
+        }
+        return false;
     }
 
 }

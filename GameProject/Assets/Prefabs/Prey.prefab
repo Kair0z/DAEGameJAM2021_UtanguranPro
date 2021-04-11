@@ -113,6 +113,7 @@ GameObject:
   - component: {fileID: 5604273626798614457}
   - component: {fileID: 5604273626798614471}
   - component: {fileID: 5604273626798614470}
+  - component: {fileID: 2626467507604991447}
   m_Layer: 6
   m_Name: Prey
   m_TagString: Untagged
@@ -128,8 +129,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5604273626798614469}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.053, y: 0.824, z: 0.205}
-  m_LocalScale: {x: 0.23871, y: 0.23871, z: 0.23871}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_Children:
   - {fileID: 8264050807257677960}
   m_Father: {fileID: 0}
@@ -169,8 +170,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b64bdc4561289e468b26eb358630922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshAgentComp: {fileID: 5604273626798614471}
-  wanderRadius: 2.5
-  wanderTime: 2
-  _fleeSpeed: 10
-  _fleeMultiplier: 3
+  _navMeshAgent: {fileID: 5604273626798614471}
+  _spriteRenderer: {fileID: 1464773116077655879}
+  _maxWanderRadius: 15
+  _wanderFrequency: 3
+  _wanderMovementSpeed: 2
+  _fleeRadius: 15
+  _fleeMovementSpeed: 20
+--- !u!136 &2626467507604991447
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5604273626798614469}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.3
+  m_Height: 2.453362
+  m_Direction: 1
+  m_Center: {x: 0.08497083, y: 0.0018305779, z: 0}

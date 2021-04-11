@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 8358129199254369414}
   - component: {fileID: 595590848001911970}
   - component: {fileID: 4990601214128216085}
+  - component: {fileID: 3439245823036239514}
   m_Layer: 0
   m_Name: PlayerSelectPawn
   m_TagString: Untagged
@@ -130,8 +131,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 5
-  selectSprite: {fileID: 21300000, guid: 1792fa379b09f81458bdeea8cf544fd1, type: 3}
-  deselectSprite: {fileID: 21300000, guid: 219db4c295fbfaf41b9bb5e1e083eb3d, type: 3}
+  selectSprite: {fileID: 21300000, guid: 604673df17740794da939eca71148691, type: 3}
+  deselectSprite: {fileID: 21300000, guid: 2400bbdf4b122394693313660eceaefb, type: 3}
+  spriteAnimator: {fileID: 3439245823036239514}
   selectedDrag: 4
 --- !u!114 &8358129199254369414
 MonoBehaviour:
@@ -200,3 +202,22 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.7391824
+--- !u!95 &3439245823036239514
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5964174223671687791}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d6acc406a2914fe479c91ef150aa6507, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

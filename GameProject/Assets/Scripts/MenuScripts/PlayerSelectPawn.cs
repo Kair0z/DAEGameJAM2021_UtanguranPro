@@ -20,6 +20,7 @@ public class PlayerSelectPawn : MonoBehaviour
     [Header("OnSelect")]
     [SerializeField] private Sprite selectSprite = null;
     [SerializeField] private Sprite deselectSprite = null;
+    [SerializeField] private Animator spriteAnimator = null;
 
     [SerializeField] private float selectedDrag = 4.0f;
     private float defaultDrag = 0.0f;
@@ -44,6 +45,7 @@ public class PlayerSelectPawn : MonoBehaviour
         _input = input.Get<Vector2>();
     }
 
+    // Input catch:
     private void OnSelect()
     {
         if (_state == State.Free) Lock();
@@ -60,8 +62,8 @@ public class PlayerSelectPawn : MonoBehaviour
 
         GetComponent<Rigidbody2D>().angularDrag = defaultDrag;
         GetComponentInChildren<SpriteRenderer>().sprite = deselectSprite;
+        
 
-        Debug.Log("Freed!");
         _state = State.Free;
     }
 
@@ -90,6 +92,7 @@ public class PlayerSelectPawn : MonoBehaviour
         GetComponent<Rigidbody2D>().angularDrag = 0.05f;
         defaultDrag = GetComponent<Rigidbody2D>().drag;
         GetComponent<Rigidbody2D>().drag = selectedDrag;
+        spriteAnimator.SetTrigger("Join");
 
         _state = State.Locked;
 
