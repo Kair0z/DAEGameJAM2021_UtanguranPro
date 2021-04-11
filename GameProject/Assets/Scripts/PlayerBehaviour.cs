@@ -37,6 +37,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     [Header("Particles")]
     [SerializeField] private GameObject shoutParticles = null;
+    [SerializeField] private GameObject dashParticles = null;
 
     [Header("Audio")]
     [SerializeField] private AudioSource _audioSource;
@@ -177,6 +178,11 @@ public class PlayerBehaviour : MonoBehaviour
             _rigidbody.AddForce(new Vector3(_input.x, 0.0f, _input.y) * dashPower, ForceMode.Impulse);
             _dazedTimer.Set(0.3f);
             _state = State.Dazed;
+
+            var p = Instantiate(dashParticles, transform.position, transform.rotation, transform);
+            p.GetComponent<ParticleSystem>().startColor = FindObjectOfType<InGameManager>().IdToColorMap[ID];
+            p.GetComponent<ParticleSystem>().Play();
+            Destroy(p, p.GetComponent<ParticleSystem>().main.startLifetime.constant);
         }
     }
 
