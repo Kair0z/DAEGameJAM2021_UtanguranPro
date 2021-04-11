@@ -2,20 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 [RequireComponent(typeof(Collider))]
 public class CageBehaviour : MonoBehaviour
 {
     [SerializeField] private AudioSource _audioSource;
 
-    IEnumerator DelayLoadScene()
-    {
-        yield return new WaitForSeconds(5);
-        SceneTravel.GoToScene("EndMenu");
-    }
+    private bool ramCaught = false;
+
+    public Action<RamBehaviour> OnRamCaught = (RamBehaviour ramCaught) => { };
+    
 
     private void OnTriggerEnter(Collider other)
     {
+        if (ramCaught) return;
+
         RamBehaviour ram = other.GetComponent<RamBehaviour>();
         if (ram)
         {
@@ -23,10 +25,10 @@ public class CageBehaviour : MonoBehaviour
 
             ram.SetState(RamBehaviour.RamState.Caught);
             ram.GetComponent<NavMeshAgent>().SetDestination(transform.position);
-
             GetComponent<Animator>().SetTrigger("Open");
+            OnRamCaught(ram);
 
-            StartCoroutine("DelayLoadScene");
+            ramCaught = true;
         }
     }
 }

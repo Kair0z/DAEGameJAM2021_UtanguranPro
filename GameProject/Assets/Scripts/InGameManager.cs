@@ -32,19 +32,31 @@ public class InGameManager : MonoBehaviour
     public Color[] IdToColorMap = new Color[4];
 
 
+    // RAMS
+    CageBehaviour[] _cages;
+    private int _ramsCaught = 0;
+
 
     // PAUSE:
     bool _gamePaused = false;
     public bool GamePaused { get => _gamePaused; }
     public GameState CurrentState { get => _currentState;}
 
+
     private void Start()
     {
         SpawnPlayers();
         SetupOverlays();
         _currentState = GameState.Intro;
+
         if (!_director) StartGame();
         else _director.stopped += (PlayableDirector d) => { StartGame(); };
+
+        _cages = FindObjectsOfType<CageBehaviour>();
+        foreach (CageBehaviour cage in _cages)
+        {
+            cage.OnRamCaught += OnRamCaught;
+        }
     }
     private void SpawnPlayers()
     {
@@ -78,6 +90,21 @@ public class InGameManager : MonoBehaviour
         if (pauseOverlay) pauseOverlay.SetActive(false);
     }
 
+    private void OnRamCaught(RamBehaviour ramCaught)
+    {
+        ++_ramsCaught;
+        if (_ramsCaught >= _cages.Length)
+        {
+            StartCoroutine("DelayLoadScene");
+        }
+    }
+
+    IEnumerator DelayLoadScene()
+    {
+        yield return new WaitForSeconds(5);
+        SceneTravel.GoToScene("EndMenu");
+    }
+
     public void StartGame()
     {
         if (_currentState != GameState.Intro) return;
@@ -85,7 +112,6 @@ public class InGameManager : MonoBehaviour
 
         OnGameStart();
     }
-
     public void PauseGame(bool pause)
     {
         if (pauseOverlay) pauseOverlay.SetActive(pause);
