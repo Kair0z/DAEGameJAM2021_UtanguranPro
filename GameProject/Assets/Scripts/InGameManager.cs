@@ -25,8 +25,6 @@ public class InGameManager : MonoBehaviour
 
     [Header("Overlays")]
     [SerializeField] private GameObject pauseOverlay;
-    [SerializeField] private GameObject endscreenOverlay;
-
     [Header("Player ID")]
     public Color[] IdToColorMap = new Color[4];
 
@@ -68,7 +66,6 @@ public class InGameManager : MonoBehaviour
     private void SetupOverlays()
     {
         if (pauseOverlay) pauseOverlay.SetActive(false);
-        if (endscreenOverlay) endscreenOverlay.SetActive(false);
     }
 
 
