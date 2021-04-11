@@ -52,6 +52,7 @@ public class RamBehaviour : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioSource _sourceGallop;
+    [SerializeField] private AudioSource _sourceTerrain;
     [SerializeField] private AudioClip[] _clipsFlee;
     [SerializeField] private AudioClip[] _clipsFlex;
     [SerializeField] private AudioClip[] _clipsWander;
@@ -261,6 +262,7 @@ public class RamBehaviour : MonoBehaviour
             case RamState.Rage:
                 if (collision.collider.tag == "SolidTerrain")
                 {
+                    _sourceTerrain.Play();
                     // Go back to Wander
                     SetState(RamState.Wander);
                 }
