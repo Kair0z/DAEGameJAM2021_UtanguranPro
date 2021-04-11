@@ -22,9 +22,9 @@ public class RamBehaviour : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] private NavMeshAgent _navMeshAgent;
-    [SerializeField] private GameObject _cage;
-    Vector3 _targetPosition;
-    BoxCollider _cageCollider;
+    [SerializeField] private List<GameObject> _cages = new List<GameObject>();
+    //Vector3 _targetPosition;
+    private List<BoxCollider> _cageColliders = new List<BoxCollider>();
 
     [Header("Wander")]
     [SerializeField] private float _maxWanderRadius = 5.0f;
@@ -67,14 +67,12 @@ public class RamBehaviour : MonoBehaviour
 
     private void Start()
     {
-        _cageCollider = _cage.GetComponent<BoxCollider>();
-        if (_cageCollider)
+        for (int i = 0; i < _cages.Count; i++)
         {
-            Debug.Log("cage in orde");
-
+            _cageColliders.Add(_cages[i].GetComponent<BoxCollider>());
         }
-        else Debug.Log("cage ni in orde")
-;        SetState(RamState.Idle);
+
+;       SetState(RamState.Idle);
         _wanderTimer.Set(_wanderFrequency);
     }
 
@@ -367,12 +365,14 @@ public class RamBehaviour : MonoBehaviour
 
     bool IsPosInCage(Vector3 pos)
     {
-        if(_cageCollider.bounds.Contains(pos))
+        for (int i = 0; i < _cageColliders.Count; i++)
         {
-            Debug.Log("ja da zit in de cage");
-
-            return true;
+            if(_cageColliders[i].bounds.Contains(pos))
+            {
+                return true;
+            }
         }
+
         return false;
     }
 }
