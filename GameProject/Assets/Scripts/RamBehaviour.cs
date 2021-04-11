@@ -186,7 +186,7 @@ public class RamBehaviour : MonoBehaviour
             // Move away from barker + random // FLEE
             Vector3 direction = (transform.position - barker.transform.position).normalized + Random.insideUnitSphere;
             direction.Normalize();
-            NavMesh.SamplePosition(transform.position + (direction * (_fleeRadius - barkPower)) /*barkpower == distance from bark source*/, out NavMeshHit hit, 1000, 1);
+            NavMesh.SamplePosition(transform.position + (direction * (_fleeRadius)) /*barkpower == distance from bark source*/, out NavMeshHit hit, 1000, 1);
             if (hit.hit) _navMeshAgent.SetDestination(hit.position);
             SetState(RamState.Flee);
         }
