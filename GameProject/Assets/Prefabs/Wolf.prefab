@@ -160,6 +160,8 @@ MonoBehaviour:
   dashPower: 150
   shoutParticles: {fileID: 313231378409355265}
   _audioSource: {fileID: 6496888888050509646}
+  _clipDash: {fileID: 8300000, guid: f82d2f561eee01f4eab7671b206cea96, type: 3}
+  ID: 0
 --- !u!114 &7051188951905820359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,7 +249,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 8a24e08063af4a246a16bfc826e3120c, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

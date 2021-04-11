@@ -40,7 +40,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioSource _audioSource;
-    private List<AudioClip> _audioClips = new List<AudioClip>();
+    [SerializeField] private AudioClip _clipDash;
+    private List<AudioClip> _clipsBark = new List<AudioClip>();
+    private List<AudioClip> _clipsHowl = new List<AudioClip>();
 
     public int ID = 0;
 
@@ -80,16 +82,17 @@ public class PlayerBehaviour : MonoBehaviour
             _dashCooldown.OnPing(Time.deltaTime, ResetDash);
     }
 
-    public void SetAudioClips(List<AudioClip> clips)
+    public void SetAudioClips(List<AudioClip> clipsBark, List<AudioClip> clipsHowl)
     {
-        _audioClips = clips;
+        _clipsBark = clipsBark;
+        _clipsHowl = clipsHowl;
     }
 
-    private void PlayRandomBarkClip()
+    private void PlayRandomClip(List<AudioClip> clips)
     {
-        if (_audioClips.Count == 0) return;
+        if (clips.Count == 0) return;
 
-        _audioSource.clip = _audioClips[UnityEngine.Random.Range(0, _audioClips.Count)];
+        _audioSource.clip = clips[UnityEngine.Random.Range(0, clips.Count)];
         _audioSource.Play();
     }
 
@@ -114,7 +117,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             _hasBarked = true;
 
-            PlayRandomBarkClip();
+            PlayRandomClip(_clipsBark);
 
             RaycastHit[] hits = Physics.SphereCastAll(transform.position, barkMaxRadius, Vector3.right, 0.0f, LayerMask.GetMask("BarkScan"), QueryTriggerInteraction.Collide);
             foreach (RaycastHit hit in hits)
@@ -150,6 +153,9 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (!_hasDashed)
         {
+            _audioSource.clip = _clipDash;
+            _audioSource.Play();
+
             Animator anim = GetComponentInChildren<Animator>();
             if (anim) anim.SetTrigger("Dash");
 
@@ -172,6 +178,8 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<RamBehaviour>())
         {
+            PlayRandomClip(_clipsHowl);
+
             Vector3 toMe = transform.position - collision.gameObject.transform.position ;
             _rigidbody.AddForce(100.0f * new Vector3(toMe.x, 0.0f, toMe.z), ForceMode.Impulse);
             _rigidbody.AddRelativeTorque(new Vector3(0, 1, 0) * 10.0f, ForceMode.Impulse);

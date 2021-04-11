@@ -6,12 +6,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Collider))]
 public class CageBehaviour : MonoBehaviour
 {
-    private Collider _trigger;
-
-    private void Awake()
-    {
-        _trigger = GetComponent<Collider>();
-    }
+    [SerializeField] private AudioSource _audioSource;
 
     IEnumerator DelayLoadScene()
     {
@@ -24,6 +19,8 @@ public class CageBehaviour : MonoBehaviour
         RamBehaviour ram = other.GetComponent<RamBehaviour>();
         if (ram)
         {
+            _audioSource.Play();
+
             ram.SetState(RamBehaviour.RamState.Caught);
             ram.GetComponent<NavMeshAgent>().SetDestination(transform.position);
 
