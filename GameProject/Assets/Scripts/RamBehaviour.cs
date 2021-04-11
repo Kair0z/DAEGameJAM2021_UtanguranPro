@@ -22,13 +22,16 @@ public class RamBehaviour : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] private NavMeshAgent _navMesh;
+    [SerializeField] private GameObject _cage;
     Vector3 _targetPosition;
+    BoxCollider _cageCollider;
 
     [Header("Wander")]
     [SerializeField] private float _maxWanderRadius = 5.0f;
     [SerializeField] private float _minWanderRadius = 1.0f;
     [SerializeField] private float _wanderMovementSpeed = 8.0f;
     [SerializeField] private float _wanderFrequency = 1.0f;
+    [SerializeField] private float _wanderEdgeMinDistance = 2.0f;
     private Timer _wanderTimer = new Timer();
 
     [Header("Rage")]
@@ -64,9 +67,15 @@ public class RamBehaviour : MonoBehaviour
 
     private void Start()
     {
-        SetState(RamState.Idle);
+        _cageCollider = _cage.GetComponent<BoxCollider>();
+        if (_cageCollider)
+        {
+            Debug.Log("cage in orde");
+
+        }
+        else Debug.Log("cage ni in orde")
+;        SetState(RamState.Idle);
         _wanderTimer.Set(_wanderFrequency);
-        
     }
 
     private void Update()
@@ -103,7 +112,21 @@ public class RamBehaviour : MonoBehaviour
                     {
                         Vector3 wander = Random.insideUnitSphere * Random.Range(_minWanderRadius, _maxWanderRadius);
                         NavMesh.SamplePosition(transform.position + wander, out NavMeshHit hit, _maxWanderRadius, 1);
-                        if (hit.hit) _navMesh.SetDestination(hit.position);
+                        if (hit.hit)
+                        {
+                            if (IsPosInCage(hit.position))
+                            {
+                                Vector3 fuckU = transform.position - hit.position;
+
+                                NavMesh.SamplePosition(hit.position + (fuckU * 2f), out NavMeshHit hitShit, _maxWanderRadius, 1);
+
+                                _navMesh.SetDestination(hitShit.position);
+                            }
+                            else
+                            {
+                                _navMesh.SetDestination(hit.position);
+                            }
+                        }
                     }
                 });
                 break;
@@ -187,7 +210,6 @@ public class RamBehaviour : MonoBehaviour
                 _sourceGallop.loop = true;
                 angryParticles.Play();
                 if (anim) anim.SetTrigger("Enrage");
-                Debug.Log("Set Rage");
                 SetRageTarget();
                 floofPoofParticles.Play();
                 _navMesh.speed = _chargeSpeed;
@@ -252,14 +274,26 @@ public class RamBehaviour : MonoBehaviour
         Vector3 direction;
         if (_theLastBarker)
         {
-            direction = (_theLastBarker.transform.position - transform.position).normalized;
+            direction = (_theLastBarker.transform.position - transform.position);
         }
         else
         {
             direction = Random.insideUnitSphere;
         }
-        NavMesh.SamplePosition(transform.position + direction * 1000, out NavMeshHit hit, 1000, 1);
-        if (hit.hit) _navMesh.SetDestination(hit.position);
+        NavMesh.SamplePosition(transform.position + direction * 30, out NavMeshHit hit, 1000, 1);
+        if (hit.hit)
+        {
+            if (IsPosInCage(hit.position))
+            {
+                direction = Random.insideUnitSphere;
+                NavMesh.SamplePosition(transform.position + direction * 30, out NavMeshHit fuckU, 1000, 1);
+                _navMesh.SetDestination(fuckU.position);
+            }
+            else
+            {
+                _navMesh.SetDestination(hit.position);
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -311,8 +345,7 @@ public class RamBehaviour : MonoBehaviour
     bool FindPosAwayFromEdge()
     {
         bool isEdgeFound = _navMesh.FindClosestEdge(out NavMeshHit hit);
-        float threshHold = 0.5f;
-        if (isEdgeFound && hit.distance < threshHold)
+        if (isEdgeFound && hit.distance < _wanderEdgeMinDistance)
         {
             Vector3 direction = (transform.position - hit.position).normalized + Random.insideUnitSphere;
             direction.Normalize();
@@ -320,6 +353,18 @@ public class RamBehaviour : MonoBehaviour
             if (hit.hit) _navMesh.SetDestination(hit.position);
             return true;
         }
+        return false;
+    }
+
+    bool IsPosInCage(Vector3 pos)
+    {
+        if(_cageCollider.bounds.Contains(pos))
+        {
+            Debug.Log("ja da zit in de cage");
+
+            return true;
+        }
+        Debug.Log("ja da zit er ni in");
         return false;
     }
 }

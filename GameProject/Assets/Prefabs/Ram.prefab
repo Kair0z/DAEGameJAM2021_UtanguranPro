@@ -9783,8 +9783,9 @@ MonoBehaviour:
   _wanderMovementSpeed: 8
   _wanderFrequency: 4
   _chargeSpeed: 15
-  _defaultRageIncrease: 20
-  _flexTime: 3
+  _rageIncreaseMin: 15
+  _rageIncreaseMax: 25
+  _flexTime: 1
   _fleeMovementSpeed: 11
   _fleeRadius: 15
   _cameraShake: {fileID: 8556512239864177943}
