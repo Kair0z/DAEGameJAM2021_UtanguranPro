@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
+using System;
+using UnityEngine.Playables;
 
 [RequireComponent(typeof(PlayerInputManager))]
 public class InGameManager : MonoBehaviour
 {
-    enum GameState
+    public enum GameState
     {
         Intro,
         Game,
@@ -15,8 +17,9 @@ public class InGameManager : MonoBehaviour
         GameWin
     }
     GameState _currentState;
+    public Action OnGameStart;
 
-    
+    [SerializeField] PlayableDirector _director = null;
 
     [Header("Spawn Players")]
     [SerializeField] private GameObject playerPrefab = null;
@@ -28,14 +31,20 @@ public class InGameManager : MonoBehaviour
     [Header("Player ID")]
     public Color[] IdToColorMap = new Color[4];
 
+
+
     // PAUSE:
     bool _gamePaused = false;
     public bool GamePaused { get => _gamePaused; }
+    public GameState CurrentState { get => _currentState;}
 
     private void Start()
     {
         SpawnPlayers();
         SetupOverlays();
+        _currentState = GameState.Intro;
+        StartGame();
+        //_director.stopped += (PlayableDirector d) => { StartGame(); };
     }
     private void SpawnPlayers()
     {
@@ -69,6 +78,13 @@ public class InGameManager : MonoBehaviour
         if (pauseOverlay) pauseOverlay.SetActive(false);
     }
 
+    public void StartGame()
+    {
+        if (_currentState != GameState.Intro) return;
+        _currentState = GameState.Game;
+
+        OnGameStart();
+    }
 
     public void PauseGame(bool pause)
     {

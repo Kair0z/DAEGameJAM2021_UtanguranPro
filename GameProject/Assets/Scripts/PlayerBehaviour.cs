@@ -45,6 +45,7 @@ public class PlayerBehaviour : MonoBehaviour
     private List<AudioClip> _clipsHowl = new List<AudioClip>();
 
     public int ID = 0;
+    InGameManager _gameManager = null;
 
     private void Awake()
     {
@@ -58,6 +59,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         _dashCooldown.Set(dashCooldown);
         _barkCooldown.Set(barkCooldown);
+        _gameManager = FindObjectOfType<InGameManager>();
     }
 
     private void Update()
@@ -74,7 +76,6 @@ public class PlayerBehaviour : MonoBehaviour
             _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, moveMaxSpeed);
         }
         
-
         if (_hasBarked)
             _barkCooldown.OnPing(Time.deltaTime, ResetBark);
 
@@ -109,10 +110,15 @@ public class PlayerBehaviour : MonoBehaviour
     #region Input
     private void OnMove(InputValue value)
     {
+        if (_gameManager &&
+            _gameManager.CurrentState != InGameManager.GameState.Game) return;
         _input = value.Get<Vector2>();
     }
     private void OnBark()
     {
+        if (_gameManager &&
+            _gameManager.CurrentState != InGameManager.GameState.Game) return;
+
         if (!_hasBarked)
         {
             _hasBarked = true;
@@ -150,6 +156,8 @@ public class PlayerBehaviour : MonoBehaviour
     private void OnDash()
     {
         if (_input == Vector2.zero) return;
+        if (_gameManager &&
+            _gameManager.CurrentState != InGameManager.GameState.Game) return;
 
         if (!_hasDashed)
         {
