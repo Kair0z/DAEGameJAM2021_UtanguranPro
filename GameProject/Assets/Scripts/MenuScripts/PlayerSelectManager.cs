@@ -67,7 +67,6 @@ public class PlayerSelectManager : MonoBehaviour
     }
     private void StartGame()
     {
-        Debug.Log("GAME START");
         OnGameStart.Invoke();
     }
 }

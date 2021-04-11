@@ -17,7 +17,7 @@ public class InGameManager : MonoBehaviour
         GameWin
     }
     GameState _currentState;
-    public Action OnGameStart;
+    public Action OnGameStart = ()=> { };
 
     [SerializeField] PlayableDirector _director = null;
 
@@ -43,8 +43,7 @@ public class InGameManager : MonoBehaviour
         SpawnPlayers();
         SetupOverlays();
         _currentState = GameState.Intro;
-        StartGame();
-        //_director.stopped += (PlayableDirector d) => { StartGame(); };
+        _director.stopped += (PlayableDirector d) => { StartGame(); };
     }
     private void SpawnPlayers()
     {

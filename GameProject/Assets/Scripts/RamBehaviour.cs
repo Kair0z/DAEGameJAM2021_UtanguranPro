@@ -49,6 +49,8 @@ public class RamBehaviour : MonoBehaviour
     [Header("Particles")]
     [SerializeField] private GameObject barkReceiveParticles;
     [SerializeField] private ParticleSystem floofPoofParticles;
+    [SerializeField] private ParticleSystem scaredParticles;
+    [SerializeField] private ParticleSystem angryParticles;
 
     [Header("Audio")]
     [SerializeField] private AudioSource _audioSource;
@@ -182,7 +184,7 @@ public class RamBehaviour : MonoBehaviour
             case RamState.Rage:
                 _sourceGallop.Play();
                 _sourceGallop.loop = true;
-
+                angryParticles.Play();
                 if (anim) anim.SetTrigger("Enrage");
                 Debug.Log("Set Rage");
                 SetRageTarget();
@@ -194,6 +196,7 @@ public class RamBehaviour : MonoBehaviour
                 PlayRandomClip(_clipsFlex);
                 Debug.Log("FLEXING");
                 floofPoofParticles.Play();
+                angryParticles.Play();
                 if (anim) anim.SetTrigger("FLEX");
                 _navMesh.speed = 0f;
                 break;
@@ -201,6 +204,7 @@ public class RamBehaviour : MonoBehaviour
             case RamState.Flee:
                 PlayRandomClip(_clipsFlee);
                 if (anim) anim.SetTrigger("Enrage");
+                scaredParticles.Play();
                 _navMesh.speed = _fleeMovementSpeed;
                 break;
 
