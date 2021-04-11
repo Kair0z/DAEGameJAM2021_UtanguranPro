@@ -700,7 +700,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   randomLevelList:
-  - Level1
+  - Level2
   - Level2
 --- !u!114 &1048662778
 MonoBehaviour:
