@@ -3272,10 +3272,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3799732104015712121, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
-      propertyPath: _fleeRadius
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 3799732104015712124, guid: 6f0755578e397d947b1daca58042d5e5, type: 3}
       propertyPath: m_Name
       value: Ram

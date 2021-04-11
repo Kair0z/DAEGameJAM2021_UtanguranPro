@@ -21,6 +21,7 @@ public class PlayerSelectManager : MonoBehaviour
     private Timer _countDown = new Timer();
 
     public UnityEvent OnGameStart;
+    [SerializeField] private string[] randomLevelList;
 
     private void Start()
     {
