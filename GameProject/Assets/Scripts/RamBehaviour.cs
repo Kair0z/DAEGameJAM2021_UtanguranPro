@@ -196,6 +196,11 @@ public class RamBehaviour : MonoBehaviour
         }
     }
 
+    public void PlayFloofPoof()
+    {
+        floofPoofParticles.Play();
+    }
+
     public void SetState(RamState newState)
     {
         if (_state == RamState.Rage && newState != RamState.Rage) // stop galloping after rage
@@ -221,7 +226,7 @@ public class RamBehaviour : MonoBehaviour
 
             case RamState.Flex:
                 PlayRandomClip(_clipsFlex);
-                floofPoofParticles.Play();
+                PlayFloofPoof();
                 angryParticles.Play();
                 if (anim) anim.SetTrigger("FLEX");
                 _navMeshAgent.speed = 0f;
