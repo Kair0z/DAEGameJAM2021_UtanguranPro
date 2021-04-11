@@ -43,7 +43,8 @@ public class InGameManager : MonoBehaviour
         SpawnPlayers();
         SetupOverlays();
         _currentState = GameState.Intro;
-        _director.stopped += (PlayableDirector d) => { StartGame(); };
+        if (!_director) StartGame();
+        else _director.stopped += (PlayableDirector d) => { StartGame(); };
     }
     private void SpawnPlayers()
     {
